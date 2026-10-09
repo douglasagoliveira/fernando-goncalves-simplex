@@ -1,15 +1,12 @@
 import { useEffect, useRef } from "react"
 import { BooksSection } from "../sections/BooksSection"
-import heroBgOffice from "../../imports/optimized/equipe-motivada-1200.webp"
-import fernandoPortrait1024 from "../../imports/optimized/fernando-simplex-retrato-graded-1024.webp"
-import fernandoPortrait640 from "../../imports/optimized/fernando-simplex-retrato-graded-640.webp"
 import equipeMotivada1200 from "../../imports/optimized/equipe-motivada-1200.webp"
 import equipeMotivada640 from "../../imports/optimized/equipe-motivada-640.webp"
 import "../../styles/sobre.css"
 
 const content = {
   "intro": {
-    "headerTitle": "Uma história real. Uma experiência de vida.",
+    "headerTitle": "Uma história real.",
     "headerTitleAccent": "Uma mensagem que conecta.",
     "headerSubtitle": "Fernando Gonçalves é storyteller e palestrante motivacional desde 1992. Sua experiência nasceu muito antes dos palcos, em uma vida marcada por dificuldades, recomeços e pela busca de caminhos quando parecia não haver saída.",
     "sectionLabel": "Minha História",
@@ -163,7 +160,7 @@ export default function Sobre() {
           gsap.from(element, { y: 24, opacity: 0, duration: 0.85, ease: "power3.out", clearProps: "all", scrollTrigger: { trigger: element, start: "top 94%", once: true } })
         })
         gsap.fromTo(root.querySelector("[data-about-progress]"), { scaleY: 0 }, { scaleY: 1, ease: "none", scrollTrigger: { trigger: root.querySelector(".about-timeline"), start: "top 65%", end: "bottom 65%", scrub: 0.5 } })
-        
+
         const heroOpening = root.querySelector(".about-opening")
         const ghost = root.querySelector(".about-ghost")
         if (ghost && heroOpening) {
@@ -191,102 +188,50 @@ export default function Sobre() {
   return (
     <div ref={pageRef} className="about-page">
       <div className="about-opening relative overflow-hidden bg-[#0A1428] text-white">
-        {/* Background Backdrop: Dual-tone photo mask + Atmospheric Ghost Watermark + Discreet Lighting */}
-        <div className="about-backdrop absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-          <img
-            src={heroBgOffice.src}
-            alt=""
-            className="w-full h-full object-cover object-[75%_center] opacity-20 mix-blend-luminosity"
-            style={{
-              maskImage: "linear-gradient(to right, transparent 0%, transparent 15%, black 60%, black 100%), linear-gradient(to bottom, black 80%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to right, transparent 0%, transparent 15%, black 60%, black 100%), linear-gradient(to bottom, black 80%, transparent 100%)",
-              maskComposite: "intersect",
-              WebkitMaskComposite: "source-in",
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A1428] via-[#0A1428]/85 to-transparent" />
-
-          {/* Subtle ghost text */}
-          <span className="about-ghost" aria-hidden="true">TRAJETÓRIAS</span>
-
-          {/* Subtle ambient blur wash at lower section */}
-          <div className="absolute right-[5%] bottom-[10%] h-[550px] w-[550px] rounded-full bg-[var(--brand-cyan)] opacity-[0.06] blur-[120px]" />
-          <div className="absolute right-[20%] bottom-[20%] h-[450px] w-[450px] rounded-full bg-[var(--brand-blue)] opacity-[0.12] blur-[90px]" />
-        </div>
-
-        {/* Left Column: Hero Copy */}
-        <div className="about-hero-content relative z-10 flex flex-col justify-center py-20 md:py-32 lg:py-36">
-          <h1 className="about-hero-title mb-6 max-w-[720px] leading-[1.08] tracking-[calc(-0.025em_+_1px)]">
-            {content.intro.headerTitle}{" "}
-            <span className="text-[var(--on-dark-accent)]">{content.intro.headerTitleAccent}</span>
-          </h1>
-
-          <p className="about-hero-lead mb-8 max-w-[580px] text-[16px] leading-[1.8] text-[var(--blue-200)]">
-            {content.intro.headerSubtitle}
-          </p>
-          <div className="flex">
-            <a href="/contato" className="button bg-accent text-accent-foreground hover:bg-[var(--cyan-300)] border-none">
-              Solicite uma palestra <span aria-hidden="true" className="arrow">↗</span>
-            </a>
-          </div>
-        </div>
-
-        {/* Right Column: Fernando Portrait with Background Graphics & Ambient Grading */}
-        <div className="about-hero-portrait-stage relative z-10 flex items-end justify-center">
-          {/* Ambient Glow behind Portrait */}
-          <div className="absolute inset-0 z-[-1] flex items-center justify-center pointer-events-none" aria-hidden="true">
-            <div className="w-[500px] h-[500px] rounded-full bg-[var(--brand-cyan)] opacity-[0.12] blur-[100px]" />
-            <div className="absolute right-0 bottom-[10%] w-[350px] h-[450px] rounded-full bg-[var(--brand-blue)] opacity-[0.15] blur-[80px]" />
-          </div>
-
-          {/* Elegant Frosted Glass Frame */}
-          <div className="absolute inset-0 z-[-1] pointer-events-none overflow-hidden" aria-hidden="true">
-            <div className="absolute right-[5%] bottom-0 w-[80%] h-[95%] border-l border-t border-[var(--brand-cyan)]/20 bg-gradient-to-b from-[var(--glass)] to-transparent rounded-tl-[80px] backdrop-blur-[4px] opacity-80">
-              {/* Subtle grid pattern inside the glass */}
-              <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: "radial-gradient(var(--brand-cyan) 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
-              {/* Decorative tech line */}
-              <div className="absolute left-[32px] top-0 bottom-0 w-[1px] bg-gradient-to-b from-[var(--brand-cyan)]/40 to-transparent" />
-              {/* Coordinate accent */}
-              <div className="absolute left-[40px] top-[40px] text-[var(--brand-cyan)] opacity-40 font-[family-name:var(--mono)] text-[9px] tracking-[0.15em]">
-                EXP // SINCE 1992
-              </div>
-            </div>
-          </div>
-
-          {/* Fernando Seated Portrait with Full Corporate Ambient Grade */}
-          <div className="about-hero-portrait relative z-10 w-full max-w-[540px]">
-            {/* Ground Floor & Contact Shadow System underneath puff and feet */}
-            <div className="about-stage-floor" aria-hidden="true">
-              <div className="about-floor-line" />
-              <div className="about-shadow-ambient" />
-              <div className="about-shadow-occlusion" />
-              <div className="about-shadow-contact-puff" />
-              <div className="about-shadow-contact-feet" />
-            </div>
-
+        {/* Full-bleed Responsive Background Image: Desktop (topo-site-sobre.jpg) & Mobile (topo-site-sobre-mob.jpg) */}
+        <div className="about-hero-bg absolute inset-0 z-0 pointer-events-none select-none overflow-hidden" aria-hidden="true">
+          <picture className="w-full h-full block">
+            <source media="(max-width: 768px)" srcSet="/topo-site-sobre-mob.jpg" />
             <img
-              src={fernandoPortrait1024.src}
-              srcSet={`${fernandoPortrait640.src} 640w, ${fernandoPortrait1024.src} 1024w`}
-              sizes="(max-width: 900px) 90vw, 540px"
-              width={1024}
-              height={1536}
-              alt="Fernando Gonçalves sentado em um cubo, em retrato de corpo inteiro"
+              src="/topo-site-sobre.jpg"
+              alt=""
+              className="about-hero-bg-img w-full h-full object-cover"
               loading="eager"
               fetchPriority="high"
               decoding="async"
-              className="about-hero-photo portrait-grade-corporate relative z-10 w-full h-auto object-contain object-bottom"
             />
+          </picture>
 
-            {/* Subtle Suit Ambient Light Sheen on dark trousers and jacket */}
-            <div className="about-portrait-suit-sheen" aria-hidden="true" />
+          {/* Desktop Scrim: Protects text legibility on the left while keeping Fernando crisp and vibrant on the right */}
+          <div className="about-hero-scrim-desktop hidden md:block absolute inset-0 bg-gradient-to-r from-[#0A1428]/95 via-[#0A1428]/70 via-50% to-transparent pointer-events-none" />
 
-            {/* 3D Foreground Glowing Glass Pane */}
-            <div className="absolute inset-0 z-20 pointer-events-none">
-              <div
-                className="absolute bottom-[2%] left-[-15%] w-[80%] h-[40%] bg-gradient-to-t from-[var(--brand-cyan)]/15 to-transparent border-t border-r border-[var(--brand-cyan)]/35 backdrop-blur-[1px]"
-                style={{ clipPath: "polygon(0 100%, 100% 0, 100% 100%)" }}
-              />
-            </div>
+          {/* Mobile Scrim: Protects text legibility on the top while keeping Fernando seated clearly visible below */}
+          <div className="about-hero-scrim-mobile md:hidden absolute inset-0 bg-gradient-to-b from-[#0A1428]/95 via-[#0A1428]/80 via-45% to-transparent pointer-events-none" />
+
+          {/* Bottom transition blend */}
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0A1428] to-transparent pointer-events-none" />
+
+          {/* Subtle ghost text */}
+          <span className="about-ghost" aria-hidden="true">TRAJETÓRIAS</span>
+        </div>
+
+        {/* Hero Content overlaid on background */}
+        <div className="about-hero-content relative z-10 flex flex-col justify-center">
+          <h1 className="about-hero-title mb-6 max-w-[700px] leading-[1.08] tracking-[calc(-0.025em_+_1px)]">
+            <span className="md:block">{content.intro.headerTitle}</span>{" "}
+            <span className="text-[var(--on-dark-accent)]">
+              <span className="md:block">Uma mensagem</span>{" "}
+              <span className="md:block">que conecta.</span>
+            </span>
+          </h1>
+
+          <p className="about-hero-lead mb-8 max-w-[560px] text-[16px] md:text-[17px] leading-[1.8] text-[var(--blue-200)]">
+            {content.intro.headerSubtitle}
+          </p>
+          <div className="flex">
+            <a href="/contato" className="button bg-accent text-accent-foreground hover:bg-[var(--cyan-300)] border-none shadow-lg shadow-cyan-950/40">
+              Solicite uma palestra <span aria-hidden="true" className="arrow">↗</span>
+            </a>
           </div>
         </div>
       </div>
