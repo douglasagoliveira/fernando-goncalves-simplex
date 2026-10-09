@@ -3,7 +3,7 @@ import MainLayout from "../layouts/MainLayout.astro"
 import Sobre from "../components/pages/Sobre"
 ---
 <MainLayout>
-  <Sobre />
+  <Sobre client:load />
 </MainLayout>
 
 <script>
@@ -17,6 +17,24 @@ import Sobre from "../components/pages/Sobre"
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     if (prefersReducedMotion) return
+
+    // Ghost text scroll animation
+    const heroOpening = root.querySelector(".about-opening")
+    const ghost = root.querySelector(".about-ghost")
+    if (ghost && heroOpening) {
+      gsap.killTweensOf(ghost)
+      gsap.to(ghost, {
+        xPercent: -50,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroOpening,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.5,
+          invalidateOnRefresh: true,
+        },
+      })
+    }
 
     // Opening hero reveal
     const heroElements = root.querySelectorAll(".about-opening .about-hero-content > *")
@@ -76,6 +94,10 @@ import Sobre from "../components/pages/Sobre"
   }
 
   document.fonts?.ready?.then(() => {
+    ScrollTrigger.refresh()
+  })
+
+  window.addEventListener("resize", () => {
     ScrollTrigger.refresh()
   })
 </script>

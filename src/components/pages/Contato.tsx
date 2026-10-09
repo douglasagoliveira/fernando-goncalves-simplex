@@ -5,6 +5,7 @@ import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Arrow, Button } from "../ui"
 import { Portrait } from "../ui/Portrait"
+import bgHero from "../../imports/optimized/fernando_palestra_bg.jpg"
 import "../../styles/contato.css"
 
 const questions = [
@@ -102,10 +103,14 @@ export default function Contato() {
 
   return (
     <div className="contact-page" ref={root}>
-      <section className="contact-page-hero" aria-labelledby="contact-page-title">
-        <div className="contact-page-container contact-page-hero-grid">
+      <section className="contact-page-hero relative overflow-hidden" aria-labelledby="contact-page-title">
+        {/* Background Graphic */}
+        <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
+          <img src={bgHero.src} alt="" className="w-full h-full object-cover opacity-25 mix-blend-luminosity" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--brand-blue)] via-[var(--brand-blue)]/80 to-transparent" />
+        </div>
+        <div className="contact-page-container contact-page-hero-grid relative z-10">
           <div className="contact-page-hero-copy">
-            <p className="contact-page-label" data-contact-reveal>Contato</p>
             <h1 id="contact-page-title" data-contact-reveal>Sua equipe precisa de motivação? <span>Vamos conversar.</span></h1>
             <p className="contact-page-hero-text" data-contact-reveal>Se sua empresa, instituição ou organização deseja proporcionar uma experiência motivacional capaz de estimular reflexão, participação e mudança de atitude, entre em contato. Fernando Gonçalves está disponível para palestras, treinamentos, eventos e projetos motivacionais personalizados.</p>
             <div className="contact-page-hero-cta" data-contact-reveal>

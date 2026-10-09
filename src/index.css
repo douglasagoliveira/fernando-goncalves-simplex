@@ -516,19 +516,6 @@ h2 em {
   pointer-events: none;
   z-index: 1;
   will-change: transform;
-  animation: ghostMove linear both;
-  animation-timeline: scroll(root block);
-  animation-range: 0 100vh;
-}
-
-@keyframes ghostMove {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-60%);
-  }
 }
 
 .hero-halo {
@@ -753,8 +740,8 @@ h2 em {
 }
 
 .testimonials-subtitle {
-  font-size: var(--font-size-subtitle) !important;
-  line-height: var(--line-height-subtitle) !important;
+  font-size: 15px !important;
+  line-height: 1.7 !important;
 }
 
 .purpose-results {
@@ -2244,6 +2231,17 @@ footer {
 
   .hero h1 {
     font-size: clamp(2.65rem, 13vw, 3.35rem);
+  }
+}
+
+/* Desktop/notebook only: extra breathing room between the hero CTAs and the highlights strip */
+@media (min-width: 901px) {
+  .hero {
+    min-height: 856px;
+  }
+
+  .hero-copy {
+    padding-bottom: 120px;
   }
 }
 

@@ -17,7 +17,7 @@ import { PurposeResults } from "../components/sections/PurposeResults"
 
 <MainLayout>
   <section class="hero section-grid relative">
-    {/* Backdrop com animação de scroll (PROTAGONISTAS) + Halo + Ring + Fundo suave */}
+    {/* Backdrop com Halo + Ring + Fundo suave */}
     <div class="hero-backdrop absolute inset-0 z-0 pointer-events-none overflow-hidden" style="grid-column: 1 / -1;" aria-hidden="true">
       <img
         src={heroBgOffice.src}
@@ -27,8 +27,6 @@ import { PurposeResults } from "../components/sections/PurposeResults"
       />
       <div class="absolute inset-0 bg-gradient-to-r from-[var(--ink)] via-[var(--ink)]/80 to-transparent"></div>
       
-      {/* Ghost text com animação no scroll */}
-      <span class="hero-ghost" aria-hidden="true">PROTAGONISTAS</span>
       <span class="hero-halo" aria-hidden="true"></span>
       <span class="hero-ring" aria-hidden="true"></span>
     </div>
@@ -94,23 +92,4 @@ import { PurposeResults } from "../components/sections/PurposeResults"
   <LectureFormats client:visible />
   <Testimonials client:visible />
   <PurposeResults />
-  <script is:inline>
-    // Fallback de scroll para .hero-ghost caso o navegador não suporte CSS scroll-driven animations
-    if (!CSS.supports || !CSS.supports("animation-timeline", "scroll()")) {
-      const ghost = document.querySelector(".hero-ghost");
-      if (ghost) {
-        let ticking = false;
-        window.addEventListener("scroll", () => {
-          if (!ticking) {
-            window.requestAnimationFrame(() => {
-              const scrolled = Math.min(1, Math.max(0, window.scrollY / (window.innerHeight || 800)));
-              ghost.style.transform = `translateX(${-60 * scrolled}%)`;
-              ticking = false;
-            });
-            ticking = true;
-          }
-        }, { passive: true });
-      }
-    }
-  </script>
 </MainLayout>

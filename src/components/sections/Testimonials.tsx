@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, useReducedMotion } from "motion/react";
@@ -6,7 +6,11 @@ import { testimonials } from "../../data/testimonials";
 
 import speakerImg from "../../imports/fernando-goncalves-palestras-depoimento.png";
 
-const slides = [...testimonials, ...testimonials];
+const SET_COUNT = 5;
+const SET_SIZE = testimonials.length;
+const MIDDLE_SET_INDEX = 2; // Sets: [0], [1], [2] (middle), [3], [4]
+const MIDDLE_SET_START = MIDDLE_SET_INDEX * SET_SIZE; // Index 20
+const slides = Array.from({ length: SET_COUNT }, () => testimonials).flat();
 
 const speakerSrc = speakerImg && typeof speakerImg === 'object' && 'src' in speakerImg ? speakerImg.src : speakerImg;
 
@@ -17,10 +21,12 @@ export function Testimonials() {
   const section = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
-  const current = useRef(0);
-  const targetIndex = useRef(0);
+  const current = useRef(MIDDLE_SET_START);
+  const targetIndex = useRef(MIDDLE_SET_START);
+  const isTeleporting = useRef(false);
   const scrollEndTimeout = useRef<number | undefined>(undefined);
-  const [active, setActive] = useState(0);
+
+  const [activeGlobalIndex, setActiveGlobalIndex] = useState(MIDDLE_SET_START);
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(true);
   const [motionAllowed, setMotionAllowed] = useState(false);
@@ -29,42 +35,63 @@ export function Testimonials() {
   const [focused, setFocused] = useState(false);
   const [visible, setVisible] = useState(true);
 
+  const activeTestimonialIndex = ((activeGlobalIndex % SET_SIZE) + SET_SIZE) % SET_SIZE;
+
   const moveTo = useCallback(
     (index: number, animate = true) => {
       const container = track.current;
+      if (!container) return;
+
       const targetElementIndex = Math.max(0, Math.min(index, slides.length - 1));
-      
       targetIndex.current = targetElementIndex;
 
-      const card = container?.querySelector<HTMLElement>(
+      const card = container.querySelector<HTMLElement>(
         `[data-index="${targetElementIndex}"]`,
       );
-      if (!container || !card) return;
-      
+      if (!card) return;
+
       const targetScroll = card.offsetLeft - (container.clientWidth - card.offsetWidth) / 2;
 
       if (animate && motionAllowed) {
         container.style.scrollSnapType = "none";
+        gsap.killTweensOf(container);
+
         gsap.to(container, {
           scrollLeft: targetScroll,
-          duration: 0.6,
+          duration: 0.65,
           ease: "power3.out",
           overwrite: "auto",
           onComplete: () => {
             container.style.scrollSnapType = "";
-            container.scrollTo({ left: targetScroll, behavior: "instant" });
             
-            if (targetElementIndex >= testimonials.length) {
-              const realIndex = targetElementIndex % testimonials.length;
-              const realCard = container.querySelector<HTMLElement>(`[data-index="${realIndex}"]`);
-              if (realCard) {
-                const realScroll = realCard.offsetLeft - (container.clientWidth - realCard.offsetWidth) / 2;
-                container.scrollTo({ left: realScroll, behavior: "instant" });
-                targetIndex.current = realIndex;
-                current.current = realIndex;
-                setActive(realIndex % testimonials.length);
+            // Normalize back to the middle set [20..29] seamlessly
+            let normalizedIndex = targetElementIndex;
+            if (targetElementIndex < MIDDLE_SET_START) {
+              normalizedIndex = ((targetElementIndex % SET_SIZE) + SET_SIZE) % SET_SIZE + MIDDLE_SET_START;
+            } else if (targetElementIndex >= MIDDLE_SET_START + SET_SIZE) {
+              normalizedIndex = (targetElementIndex % SET_SIZE) + MIDDLE_SET_START;
+            }
+
+            if (normalizedIndex !== targetElementIndex) {
+              const normalizedCard = container.querySelector<HTMLElement>(
+                `[data-index="${normalizedIndex}"]`,
+              );
+              if (normalizedCard) {
+                isTeleporting.current = true;
+                const normScroll = normalizedCard.offsetLeft - (container.clientWidth - normalizedCard.offsetWidth) / 2;
+                container.scrollTo({ left: normScroll, behavior: "instant" });
+                targetIndex.current = normalizedIndex;
+                current.current = normalizedIndex;
+                setActiveGlobalIndex(normalizedIndex);
+                requestAnimationFrame(() => {
+                  isTeleporting.current = false;
+                });
+                return;
               }
             }
+
+            current.current = targetElementIndex;
+            setActiveGlobalIndex(targetElementIndex);
           },
         });
       } else {
@@ -72,10 +99,27 @@ export function Testimonials() {
           left: targetScroll,
           behavior: "instant",
         });
+        current.current = targetElementIndex;
+        setActiveGlobalIndex(targetElementIndex);
       }
     },
     [motionAllowed],
   );
+
+  // Position track immediately at the middle set on initial render
+  const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+  useIsomorphicLayoutEffect(() => {
+    const container = track.current;
+    if (!container) return;
+    const card = container.querySelector<HTMLElement>(
+      `[data-index="${MIDDLE_SET_START}"]`,
+    );
+    if (card) {
+      const targetScroll = card.offsetLeft - (container.clientWidth - card.offsetWidth) / 2;
+      container.scrollLeft = targetScroll;
+    }
+  }, []);
 
   useEffect(() => {
     setReady(true);
@@ -84,10 +128,6 @@ export function Testimonials() {
       setMotionAllowed(!preference.matches);
       if (preference.matches) {
         setPlaying(false);
-        track.current?.scrollTo({
-          left: track.current.scrollLeft,
-          behavior: "instant",
-        });
       }
     };
     const visibility = () => setVisible(!document.hidden);
@@ -97,9 +137,22 @@ export function Testimonials() {
     document.addEventListener("visibilitychange", visibility);
     const observer = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
-      { threshold: 0.35 },
+      { threshold: 0.3 },
     );
     if (section.current) observer.observe(section.current);
+
+    // Initial positioning guarantee after layout is complete
+    const container = track.current;
+    if (container) {
+      const initCard = container.querySelector<HTMLElement>(
+        `[data-index="${MIDDLE_SET_START}"]`,
+      );
+      if (initCard) {
+        const targetScroll = initCard.offsetLeft - (container.clientWidth - initCard.offsetWidth) / 2;
+        container.scrollTo({ left: targetScroll, behavior: "instant" });
+      }
+    }
+
     return () => {
       observer.disconnect();
       preference.removeEventListener("change", update);
@@ -107,55 +160,73 @@ export function Testimonials() {
     };
   }, []);
 
+  // Scroll tracking and auto-centering
   useEffect(() => {
     const container = track.current;
     if (!container) return;
     let frame = 0;
+
     const update = () => {
       frame = 0;
+      if (isTeleporting.current) return;
+
       const center = container.scrollLeft + container.clientWidth / 2;
       const cards = Array.from(
         container.querySelectorAll<HTMLElement>("[data-testimonial]"),
       );
-      let closest = 0;
-      let distance = Infinity;
-      cards.forEach((card, index) => {
+      let closest = MIDDLE_SET_START;
+      let minDistance = Infinity;
+
+      cards.forEach((card) => {
         const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-        const difference = Math.abs(cardCenter - center);
-        if (difference < distance) {
-          distance = difference;
-          closest = index;
+        const dist = Math.abs(cardCenter - center);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closest = Number(card.getAttribute("data-index") || MIDDLE_SET_START);
         }
       });
+
       current.current = closest;
-      setActive(closest % testimonials.length);
-      
+      setActiveGlobalIndex(closest);
+
       if (!gsap.isTweening(container)) {
         targetIndex.current = closest;
       }
 
+      // Normalization when user stops manually scrolling/dragging
       window.clearTimeout(scrollEndTimeout.current);
       scrollEndTimeout.current = window.setTimeout(() => {
-        if (!gsap.isTweening(container) && current.current >= testimonials.length) {
-          const realIndex = current.current % testimonials.length;
-          moveTo(realIndex, false);
+        if (gsap.isTweening(container) || isTeleporting.current) return;
+        const cur = current.current;
+        if (cur < MIDDLE_SET_START || cur >= MIDDLE_SET_START + SET_SIZE) {
+          const normalizedIndex = ((cur % SET_SIZE) + SET_SIZE) % SET_SIZE + MIDDLE_SET_START;
+          moveTo(normalizedIndex, false);
         }
       }, 150);
     };
+
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
     };
-    const resize = new ResizeObserver(() => moveTo(current.current, false));
+
+    const resize = new ResizeObserver(() => {
+      if (!isTeleporting.current && !gsap.isTweening(container)) {
+        moveTo(targetIndex.current, false);
+      }
+    });
+
     resize.observe(container);
-    update();
     container.addEventListener("scroll", schedule, { passive: true });
+
     return () => {
       resize.disconnect();
       cancelAnimationFrame(frame);
       container.removeEventListener("scroll", schedule);
+      window.clearTimeout(scrollEndTimeout.current);
     };
   }, [moveTo]);
 
+  // Autoplay
   useEffect(() => {
     if (
       !playing ||
@@ -170,79 +241,93 @@ export function Testimonials() {
       moveTo(current.current + 1);
     }, 5000);
     return () => window.clearInterval(timer);
-  }, [playing, motionAllowed, inView, interacting, focused, visible, active, moveTo]);
+  }, [playing, motionAllowed, inView, interacting, focused, visible, activeGlobalIndex, moveTo]);
 
+  // GSAP ScrollTrigger entrance animation on scroll arrival
   useEffect(() => {
     if (!section.current || reducedMotion || !motionAllowed) return;
 
     gsap.registerPlugin(ScrollTrigger);
-    const cards = section.current.querySelectorAll(".testimonial-card-shell");
-    if (!cards.length) return;
+    const cardShells = section.current.querySelectorAll(".testimonial-card-shell");
+    if (!cardShells.length) return;
 
-    gsap.set(cards, {
+    gsap.set(cardShells, {
       clearProps: "transform,opacity",
     });
 
-    const entrance = gsap.fromTo(
-      cards,
-      {
-        y: 72,
-        rotateX: 8,
-        transformPerspective: 900,
-      },
-      {
-        y: 0,
-        rotateX: 0,
-        ease: "power3.out",
-        stagger: 0.12,
-        scrollTrigger: {
-          trigger: section.current,
-          start: "top 85%",
-          end: "top 35%",
-          scrub: 0.6,
-          immediateRender: false,
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        cardShells,
+        {
+          y: 60,
+          rotateX: 8,
+          transformPerspective: 900,
         },
-      },
-    );
+        {
+          y: 0,
+          rotateX: 0,
+          ease: "power3.out",
+          stagger: {
+            each: 0.02,
+            from: "center",
+          },
+          scrollTrigger: {
+            trigger: section.current,
+            start: "top 85%",
+            end: "top 35%",
+            scrub: 0.6,
+            immediateRender: false,
+          },
+        },
+      );
+    }, section);
+
     ScrollTrigger.refresh();
 
     return () => {
-      entrance.kill();
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.trigger === section.current) trigger.kill();
-      });
+      ctx.revert();
     };
   }, [motionAllowed, reducedMotion]);
 
+  // 3D perspective tilt dynamic updates
   useEffect(() => {
-    if (reducedMotion || !motionAllowed) return;
-    const cards = section.current?.querySelectorAll<HTMLElement>(
+    if (reducedMotion || !motionAllowed || !section.current) return;
+    const figures = section.current.querySelectorAll<HTMLElement>(
       "[data-testimonial] figure",
     );
-    if (!cards?.length) return;
+    if (!figures.length) return;
 
-    gsap.to(cards, {
+    gsap.to(figures, {
       y: (_index, element) => {
-        const position = Number(element.getAttribute("data-index"));
-        return position === current.current ? 0 : 18;
+        const card = element.closest("[data-testimonial]");
+        const position = Number(card?.getAttribute("data-index") ?? -1);
+        return position === activeGlobalIndex ? 0 : 16;
       },
       rotateY: (_index, element) => {
-        const position = Number(element.getAttribute("data-index"));
-        return position === current.current ? 0 : position < current.current ? -4 : 4;
+        const card = element.closest("[data-testimonial]");
+        const position = Number(card?.getAttribute("data-index") ?? -1);
+        return position === activeGlobalIndex ? 0 : position < activeGlobalIndex ? -4 : 4;
       },
-      duration: 0.65,
-      stagger: 0.035,
+      duration: 0.6,
+      stagger: {
+        each: 0.02,
+        from: "center",
+      },
       ease: "power3.out",
       overwrite: "auto",
     });
-  }, [active, motionAllowed, reducedMotion]);
+  }, [activeGlobalIndex, motionAllowed, reducedMotion]);
 
   const navigate = (direction: number) => {
     moveTo(targetIndex.current + direction);
   };
 
-  const goTo = (index: number) => {
-    moveTo(index);
+  const goTo = (testimonialIndex: number) => {
+    const currentTestimonial = ((activeGlobalIndex % SET_SIZE) + SET_SIZE) % SET_SIZE;
+    let diff = (testimonialIndex - currentTestimonial) % SET_SIZE;
+    if (diff > SET_SIZE / 2) diff -= SET_SIZE;
+    if (diff < -SET_SIZE / 2) diff += SET_SIZE;
+    moveTo(activeGlobalIndex + diff);
   };
 
   return (
@@ -323,10 +408,10 @@ export function Testimonials() {
         className="portrait-grade-corporate pointer-events-none absolute right-[-4rem] top-16 z-10 block h-auto w-[400px] object-contain object-top opacity-70 [mask-image:linear-gradient(to_bottom,black_40%,rgba(0,0,0,0.3)_75%,transparent_95%),linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.4)_20%,black_45%)] [mask-composite:intersect] lg:top-4 lg:right-[max(0px,calc((100%_-_1380px)/2)_-_20px)] lg:w-[530px] xl:top-6 xl:right-[max(0px,calc((100%_-_1460px)/2)_+_10px)] xl:w-[590px] 2xl:w-[640px] lg:opacity-100 lg:[mask-image:linear-gradient(to_bottom,black_45%,rgba(0,0,0,0.2)_75%,transparent_95%),linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.4)_15%,black_35%)]"
       />
       <div
-        className="relative z-10 mx-auto max-w-[1296px] px-5 md:px-7 lg:pr-[460px] xl:pr-[500px]"
+        className="pointer-events-none relative z-30 mx-auto max-w-[1296px] px-5 md:px-7 lg:pr-[460px] xl:pr-[500px]"
         data-aos="compose"
       >
-        <div className="grid items-start gap-8 lg:grid-cols-[400px_minmax(0,1fr)] lg:gap-12">
+        <div className="pointer-events-auto grid items-start gap-8 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] lg:grid-cols-[400px_minmax(0,1fr)] lg:gap-12">
           <div data-step="1">
             <p className="mb-4 font-[family-name:var(--mono)] text-[11px] uppercase tracking-[0.22em] text-[var(--on-dark-muted)]">
               <span
@@ -357,7 +442,7 @@ export function Testimonials() {
           </div>
         </div>
       </div>
-      <div className="relative z-20 mt-10 md:mt-[20px] lg:-mt-10 xl:-mt-14 lg:[mask-image:linear-gradient(to_right,transparent_0%,transparent_calc(50%-var(--card-width)/2-40px),black_calc(50%-var(--card-width)/2))] lg:[-webkit-mask-image:linear-gradient(to_right,transparent_0%,transparent_calc(50%-var(--card-width)/2-40px),black_calc(50%-var(--card-width)/2))]">
+      <div className="relative z-20 mt-10 md:mt-[20px] lg:-mt-10 xl:-mt-14">
         <div
           ref={track}
           id="depoimentos-cards"
@@ -375,9 +460,12 @@ export function Testimonials() {
             if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
               event.preventDefault();
               navigate(event.key === "ArrowRight" ? 1 : -1);
-            } else if (event.key === "Home" || event.key === "End") {
+            } else if (event.key === "Home") {
               event.preventDefault();
-              moveTo(event.key === "Home" ? 0 : testimonials.length - 1, false);
+              goTo(0);
+            } else if (event.key === "End") {
+              event.preventDefault();
+              goTo(SET_SIZE - 1);
             }
           }}
         >
@@ -388,78 +476,82 @@ export function Testimonials() {
               paddingRight: "calc(50% - var(--card-width) / 2)",
             }}
           >
-            {slides.map((testimonial, position) => (
-              <motion.li
-                key={`${testimonial.name}-${position}`}
-                data-testimonial=""
-                data-index={position}
-                data-active={position === current.current}
-                initial={false}
-                animate={{
-                  scale: position === current.current ? 1 : 0.86,
-                  opacity: position === current.current ? 1 : 0.6,
-                  y: position === current.current ? 0 : 16,
-                }}
-                transition={{ type: "spring", stiffness: 220, damping: 26 }}
-                className="group flex h-[400px] w-[var(--card-width)] shrink-0 snap-center flex-col rounded-[16px] border border-white/10 bg-[#16233F]/70 p-6 pb-6 shadow-lg transition-[background-color,border-color,box-shadow] duration-500 ease-out data-[active=true]:border-[rgb(0_204_225/70%)] data-[active=true]:bg-[#1D3761] data-[active=true]:shadow-[0_20px_60px_rgb(0_204_225/12%)] motion-reduce:transition-none md:h-[460px] md:p-7 md:pb-7"
-              >
-                <motion.div
-                  className="testimonial-card-shell flex h-full flex-1 flex-col"
-                  whileHover={
-                    reducedMotion ? undefined : { y: -8, scale: 1.015 }
-                  }
-                  whileTap={reducedMotion ? undefined : { scale: 0.985 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 24 }}
+            {slides.map((testimonial, position) => {
+              const isActive = position === activeGlobalIndex;
+              const itemNum = (position % SET_SIZE) + 1;
+
+              return (
+                <motion.li
+                  key={`${testimonial.name}-${position}`}
+                  data-testimonial=""
+                  data-index={position}
+                  data-active={isActive}
+                  initial={false}
+                  animate={{
+                    scale: isActive ? 1 : 0.86,
+                    opacity: isActive ? 1 : 0.6,
+                    y: isActive ? 0 : 16,
+                  }}
+                  transition={{ type: "spring", stiffness: 220, damping: 26 }}
+                  className="group flex h-[400px] w-[var(--card-width)] shrink-0 snap-center flex-col rounded-[16px] border border-white/10 bg-[#16233F]/70 p-6 pb-6 shadow-lg transition-[background-color,border-color,box-shadow] duration-500 ease-out data-[active=true]:border-[rgb(0_204_225/70%)] data-[active=true]:bg-[#1D3761] data-[active=true]:shadow-[0_20px_60px_rgb(0_204_225/12%)] motion-reduce:transition-none md:h-[460px] md:p-7 md:pb-7"
                 >
-                  <figure className="m-0 flex h-full flex-col">
-                    <div className="mb-4 flex shrink-0 items-center justify-between">
-                      <span className="font-[family-name:var(--mono)] text-[10px] tracking-[0.1em] text-[var(--on-dark-muted)] transition-opacity duration-500 group-data-[active=false]:opacity-[0.5]">
-                        {String((position % testimonials.length) + 1).padStart(2, "0")} / {String(testimonials.length).padStart(2, "0")}
-                      </span>
-                      <span
-                        aria-hidden="true"
-                        className="h-10 font-[family-name:var(--display)] text-[32px] leading-none text-[var(--brand-teal)] transition-opacity duration-500 group-data-[active=false]:opacity-[0.5]"
-                      >
-                        “
-                      </span>
-                    </div>
-                    <blockquote className="m-0 flex-1 overflow-y-auto pr-3 text-[15px] leading-[1.65] transition-opacity duration-500 group-data-[active=false]:opacity-[0.6] group-data-[active=true]:md:text-[17px] md:text-base [scrollbar-width:thin] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar]:w-1.5">
-                      <p className="mb-0">
-                        “{testimonial.quote}”
-                      </p>
-                    </blockquote>
-                    <figcaption className="mt-5 flex shrink-0 items-center gap-4 border-t border-white/15 pt-5 md:pt-6">
-                      <img
-                        src={testimonial.photo}
-                        width={240}
-                        height={240}
-                        alt={`Retrato de ${testimonial.name}`}
-                        loading="lazy"
-                        decoding="async"
-                        className="h-12 w-12 shrink-0 rounded-full border border-white/20 object-cover"
-                      />
-                      <div className="min-w-0 transition-opacity duration-500 group-data-[active=false]:opacity-[0.6]">
-                        <p className="mb-1 text-sm font-semibold leading-6 text-white">
-                          {testimonial.name}
-                        </p>
-                        <p className="mb-0 text-xs leading-5 text-[var(--on-dark-muted)]">
-                          {testimonial.role}
-                        </p>
+                  <motion.div
+                    className="testimonial-card-shell flex h-full flex-1 flex-col"
+                    whileHover={
+                      reducedMotion ? undefined : { y: -8, scale: 1.015 }
+                    }
+                    whileTap={reducedMotion ? undefined : { scale: 0.985 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 24 }}
+                  >
+                    <figure className="m-0 flex h-full flex-col">
+                      <div className="mb-4 flex shrink-0 items-center justify-between">
+                        <span className="font-[family-name:var(--mono)] text-[10px] tracking-[0.1em] text-[var(--on-dark-muted)] transition-opacity duration-500 group-data-[active=false]:opacity-[0.5]">
+                          {String(itemNum).padStart(2, "0")} / {String(SET_SIZE).padStart(2, "0")}
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className="h-10 font-[family-name:var(--display)] text-[32px] leading-none text-[var(--brand-teal)] transition-opacity duration-500 group-data-[active=false]:opacity-[0.5]"
+                        >
+                          “
+                        </span>
                       </div>
-                    </figcaption>
-                  </figure>
-                </motion.div>
-              </motion.li>
-            ))}
+                      <blockquote className="m-0 flex-1 overflow-y-auto pr-3 text-[15px] leading-[1.65] transition-opacity duration-500 group-data-[active=false]:opacity-[0.6] group-data-[active=true]:md:text-[17px] md:text-base [scrollbar-width:thin] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar]:w-1.5">
+                        <p className="mb-0">
+                          “{testimonial.quote}”
+                        </p>
+                      </blockquote>
+                      <figcaption className="mt-5 flex shrink-0 items-center gap-4 border-t border-white/15 pt-5 md:pt-6">
+                        <img
+                          src={testimonial.photo}
+                          width={240}
+                          height={240}
+                          alt={`Retrato de ${testimonial.name}`}
+                          loading="lazy"
+                          decoding="async"
+                          className="h-12 w-12 shrink-0 rounded-full border border-white/20 object-cover"
+                        />
+                        <div className="min-w-0 transition-opacity duration-500 group-data-[active=false]:opacity-[0.6]">
+                          <p className="mb-1 text-sm font-semibold leading-6 text-white">
+                            {testimonial.name}
+                          </p>
+                          <p className="mb-0 text-xs leading-5 text-[var(--on-dark-muted)]">
+                            {testimonial.role}
+                          </p>
+                        </div>
+                      </figcaption>
+                    </figure>
+                  </motion.div>
+                </motion.li>
+              );
+            })}
           </ul>
         </div>
         <button
           type="button"
           onClick={() => navigate(-1)}
-          disabled={targetIndex.current === 0}
           aria-label="Depoimento anterior"
           aria-controls="depoimentos-cards"
-          className={`${controlClass} absolute top-1/2 z-10 hidden -translate-y-1/2 lg:left-[max(0.75rem,calc(50%-510px))] lg:flex disabled:pointer-events-none disabled:opacity-0`}
+          className={`${controlClass} absolute top-1/2 z-10 hidden -translate-y-1/2 lg:left-[max(0.75rem,calc(50%-510px))] lg:flex`}
         >
           <span aria-hidden="true">←</span>
         </button>
@@ -484,10 +576,10 @@ export function Testimonials() {
               key={testimonial.name}
               type="button"
               onClick={() => goTo(index)}
-              aria-label={`Ir para o depoimento ${index + 1} de ${testimonials.length}: ${testimonial.name}`}
-              aria-current={index === active}
+              aria-label={`Ir para o depoimento ${index + 1} de ${SET_SIZE}: ${testimonial.name}`}
+              aria-current={index === activeTestimonialIndex}
               className={`h-2 rounded-full transition-all duration-300 motion-reduce:transition-none ${
-                index === active
+                index === activeTestimonialIndex
                   ? "w-6 bg-[var(--brand-cyan)]"
                   : "w-2 bg-white/25 hover:bg-white/50"
               }`}
@@ -509,7 +601,7 @@ export function Testimonials() {
             aria-atomic="true"
           >
             <span className="sr-only">Depoimento </span>
-            {String(active + 1).padStart(2, "0")} / {testimonials.length}
+            {String(activeTestimonialIndex + 1).padStart(2, "0")} / {SET_SIZE}
           </span>
           <button
             type="button"

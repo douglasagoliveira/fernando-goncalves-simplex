@@ -163,9 +163,27 @@ export default function Sobre() {
           gsap.from(element, { y: 24, opacity: 0, duration: 0.85, ease: "power3.out", clearProps: "all", scrollTrigger: { trigger: element, start: "top 94%", once: true } })
         })
         gsap.fromTo(root.querySelector("[data-about-progress]"), { scaleY: 0 }, { scaleY: 1, ease: "none", scrollTrigger: { trigger: root.querySelector(".about-timeline"), start: "top 65%", end: "bottom 65%", scrub: 0.5 } })
+        
+        const heroOpening = root.querySelector(".about-opening")
+        const ghost = root.querySelector(".about-ghost")
+        if (ghost && heroOpening) {
+          gsap.killTweensOf(ghost)
+          gsap.to(ghost, {
+            xPercent: -50,
+            ease: "none",
+            scrollTrigger: {
+              trigger: heroOpening,
+              start: "top top",
+              end: "bottom top",
+              scrub: 0.5,
+              invalidateOnRefresh: true,
+            },
+          })
+        }
       }, root)
       dispose = () => media.revert()
-      document.fonts.ready.then(() => { if (!cancelled) ScrollTrigger.refresh() })
+      document.fonts?.ready?.then(() => { if (!cancelled) ScrollTrigger.refresh() })
+      window.addEventListener("resize", () => { if (!cancelled) ScrollTrigger.refresh() })
     }).catch(() => { })
     return () => { cancelled = true; dispose?.() }
   }, [])
@@ -189,7 +207,7 @@ export default function Sobre() {
           <div className="absolute inset-0 bg-gradient-to-r from-[#0A1428] via-[#0A1428]/85 to-transparent" />
 
           {/* Subtle ghost text */}
-          <span className="about-ghost" aria-hidden="true">TRAJETÓRIA</span>
+          <span className="about-ghost" aria-hidden="true">TRAJETÓRIAS</span>
 
           {/* Subtle ambient blur wash at lower section */}
           <div className="absolute right-[5%] bottom-[10%] h-[550px] w-[550px] rounded-full bg-[var(--brand-cyan)] opacity-[0.06] blur-[120px]" />
@@ -198,11 +216,6 @@ export default function Sobre() {
 
         {/* Left Column: Hero Copy */}
         <div className="about-hero-content relative z-10 flex flex-col justify-center py-20 md:py-32 lg:py-36">
-          <p className="mb-4 font-[family-name:var(--mono)] text-[11px] uppercase tracking-[0.22em] text-[var(--on-dark-muted)]">
-            <span aria-hidden="true" className="mr-2 text-[var(--on-dark-accent)]">|</span>
-            História & Atuação
-          </p>
-
           <h1 className="about-hero-title mb-6 max-w-[720px] leading-[1.08] tracking-[calc(-0.025em_+_1px)]">
             {content.intro.headerTitle}{" "}
             <span className="text-[var(--on-dark-accent)]">{content.intro.headerTitleAccent}</span>
@@ -211,63 +224,33 @@ export default function Sobre() {
           <p className="about-hero-lead mb-8 max-w-[580px] text-[16px] leading-[1.8] text-[var(--blue-200)]">
             {content.intro.headerSubtitle}
           </p>
+          <div className="flex">
+            <a href="/contato" className="button bg-accent text-accent-foreground hover:bg-[var(--cyan-300)] border-none">
+              Solicite uma palestra <span aria-hidden="true" className="arrow">↗</span>
+            </a>
+          </div>
         </div>
 
         {/* Right Column: Fernando Portrait with Background Graphics & Ambient Grading */}
         <div className="about-hero-portrait-stage relative z-10 flex items-end justify-center">
-          {/* Discreet SVG Tech/Architectural Background Graphics */}
-          <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
-            <svg
-              viewBox="0 0 800 900"
-              className="absolute inset-0 h-full w-full object-contain opacity-45"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <defs>
-                <linearGradient id="sobreGradCyan" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#00CCE1" stopOpacity="0.4" />
-                  <stop offset="100%" stopColor="#1D3761" stopOpacity="0.0" />
-                </linearGradient>
-                <pattern id="sobreDots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
-                  <circle cx="2" cy="2" r="1" fill="#00CCE1" fillOpacity="0.14" />
-                </pattern>
-              </defs>
-
-              {/* Dot matrix pattern patch */}
-              <rect x="250" y="80" width="450" height="300" fill="url(#sobreDots)" />
-
-              {/* Concentric compass & orbital arcs behind Fernando */}
-              <circle cx="480" cy="480" r="260" fill="none" stroke="url(#sobreGradCyan)" strokeWidth="1" strokeDasharray="4 6" opacity="0.75" />
-              <circle cx="480" cy="480" r="380" fill="none" stroke="#00CCE1" strokeWidth="0.75" strokeDasharray="10 10" opacity="0.25" />
-              <circle cx="480" cy="480" r="500" fill="none" stroke="#00CCE1" strokeWidth="0.5" opacity="0.12" />
-
-              {/* Diagonal trajectory accents */}
-              <line x1="80" y1="180" x2="720" y2="780" stroke="#00CCE1" strokeWidth="0.75" strokeOpacity="0.2" />
-              <line x1="180" y1="120" x2="780" y2="680" stroke="#00CCE1" strokeWidth="0.5" strokeDasharray="3 8" strokeOpacity="0.25" />
-
-              {/* Technical crosshairs & coordinate labels */}
-              <g opacity="0.35" transform="translate(240, 200)">
-                <line x1="-8" y1="0" x2="8" y2="0" stroke="#00CCE1" strokeWidth="1" />
-                <line x1="0" y1="-8" x2="0" y2="8" stroke="#00CCE1" strokeWidth="1" />
-                <text x="14" y="4" fill="#00CCE1" fontSize="9" fontFamily="var(--mono)" letterSpacing="0.15em">EXP // SINCE 1992</text>
-              </g>
-
-              <g opacity="0.3" transform="translate(680, 320)">
-                <line x1="-6" y1="0" x2="6" y2="0" stroke="#00CCE1" strokeWidth="1" />
-                <line x1="0" y1="-6" x2="0" y2="6" stroke="#00CCE1" strokeWidth="1" />
-              </g>
-            </svg>
+          {/* Ambient Glow behind Portrait */}
+          <div className="absolute inset-0 z-[-1] flex items-center justify-center pointer-events-none" aria-hidden="true">
+            <div className="w-[500px] h-[500px] rounded-full bg-[var(--brand-cyan)] opacity-[0.12] blur-[100px]" />
+            <div className="absolute right-0 bottom-[10%] w-[350px] h-[450px] rounded-full bg-[var(--brand-blue)] opacity-[0.15] blur-[80px]" />
           </div>
 
-          {/* Background Layered Glass Panes (like Home) */}
-          <div className="absolute inset-0 z-[-1] pointer-events-none flex items-center justify-center">
-            <div
-              className="absolute top-[22%] right-[-5%] w-[110%] h-[75%] border-r border-t border-[var(--brand-cyan)]/30 bg-gradient-to-tr from-transparent to-[var(--brand-cyan)]/8 shadow-[0_0_35px_rgba(0,204,225,0.12)] backdrop-blur-[2px]"
-              style={{ clipPath: "polygon(20% 100%, 100% 0, 100% 100%)" }}
-            />
-            <div
-              className="absolute top-[18%] right-[22%] w-[80%] h-[68%] border-l border-t border-[var(--brand-blue)]/50 bg-gradient-to-tl from-transparent to-[var(--brand-blue)]/20 backdrop-blur-[2px]"
-              style={{ clipPath: "polygon(0 0, 100% 30%, 80% 100%, 0 70%)" }}
-            />
+          {/* Elegant Frosted Glass Frame */}
+          <div className="absolute inset-0 z-[-1] pointer-events-none overflow-hidden" aria-hidden="true">
+            <div className="absolute right-[5%] bottom-0 w-[80%] h-[95%] border-l border-t border-[var(--brand-cyan)]/20 bg-gradient-to-b from-[var(--glass)] to-transparent rounded-tl-[80px] backdrop-blur-[4px] opacity-80">
+              {/* Subtle grid pattern inside the glass */}
+              <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: "radial-gradient(var(--brand-cyan) 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
+              {/* Decorative tech line */}
+              <div className="absolute left-[32px] top-0 bottom-0 w-[1px] bg-gradient-to-b from-[var(--brand-cyan)]/40 to-transparent" />
+              {/* Coordinate accent */}
+              <div className="absolute left-[40px] top-[40px] text-[var(--brand-cyan)] opacity-40 font-[family-name:var(--mono)] text-[9px] tracking-[0.15em]">
+                EXP // SINCE 1992
+              </div>
+            </div>
           </div>
 
           {/* Fernando Seated Portrait with Full Corporate Ambient Grade */}

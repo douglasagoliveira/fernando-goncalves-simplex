@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react"
 import type Lenis from "lenis"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 export function useSmoothScroll(pathname: string, enabled: boolean) {
   const instance = useRef<Lenis | null>(null)
@@ -7,10 +9,12 @@ export function useSmoothScroll(pathname: string, enabled: boolean) {
   useEffect(() => {
     if (!enabled) return
     let disposed = false
+    gsap.registerPlugin(ScrollTrigger)
+
     import("lenis")
       .then(({ default: Lenis }) => {
         if (disposed) return
-        instance.current = new Lenis({
+        const lenis = new Lenis({
           autoRaf: true,
           lerp: 0.12,
           smoothWheel: true,
@@ -20,8 +24,19 @@ export function useSmoothScroll(pathname: string, enabled: boolean) {
           virtualScroll: ({ event }) => !event.ctrlKey && !event.metaKey,
           prevent: (node) => /^(INPUT|TEXTAREA|SELECT)$/.test(node.tagName),
         })
+
+        instance.current = lenis
+
+        // Sync Lenis scroll events with GSAP ScrollTrigger
+        lenis.on("scroll", () => {
+          ScrollTrigger.update()
+        })
+
+        // Refresh ScrollTrigger once Lenis is initialized
+        ScrollTrigger.refresh()
       })
       .catch(() => {})
+
     return () => {
       disposed = true
       instance.current?.destroy()
@@ -32,5 +47,6 @@ export function useSmoothScroll(pathname: string, enabled: boolean) {
   useEffect(() => {
     instance.current?.scrollTo(0, { immediate: true, force: true })
     instance.current?.resize()
+    ScrollTrigger.refresh()
   }, [pathname])
 }
