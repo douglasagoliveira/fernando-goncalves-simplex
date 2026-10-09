@@ -1,0 +1,380 @@
+.lectures-page { background:var(--paper); color:var(--foreground); font-family:var(--body); font-size:16px; }
+.lectures-page p,.lectures-page li { font-size:16px; line-height:1.85; }
+.lectures-page p { margin:0 0 24px; }
+.lectures-page h2,.lectures-page h3,.lectures-page h4 { font-weight:300; }
+.lectures-page h2 { font-size:clamp(1.7rem,3.25vw,3.05rem); line-height:1.13; letter-spacing: calc(-.045em + var(--tracking-bump)); margin:0 0 30px; text-wrap:balance; }
+.lectures-page h3 { font-size:clamp(1.4rem,2vw,1.85rem); line-height:1.3; letter-spacing: calc(-.025em + var(--tracking-bump)); margin:0 0 18px; }
+.lectures-container { width:min(1240px,calc(100% - 96px)); margin-inline:auto; }
+.lectures-section { padding-block:clamp(72px,9vw,128px); }
+.lectures-dark { background:var(--ink); color:var(--on-dark); --ring:var(--brand-cyan); }
+.lectures-dark p,.lectures-dark li { color:var(--on-dark-muted); }
+.lectures-page .lectures-label { font-family:var(--mono); font-size:12px; line-height:1.4; letter-spacing:.12em; color:var(--on-light-accent); margin-bottom:25px; }
+.lectures-dark .lectures-label { color:var(--on-dark-accent); }
+
+/* Antigravity Ambient Duotone Hero with Atmospheric Fog & Spatial Graphics */
+.lectures-hero {
+  position: relative;
+  background: var(--blue-950);
+  color: var(--white);
+  padding-top: clamp(140px, 16vw, 190px);
+  padding-bottom: clamp(75px, 9vw, 120px);
+  overflow: hidden;
+  isolation: isolate;
+  border-bottom: 1px solid var(--line-dark);
+}
+
+/* Duotone & Fog Backdrop */
+.lectures-hero-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.lectures-hero-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 74% 36%;
+  filter: grayscale(80%) contrast(115%) brightness(88%) blur(1.5px);
+  transform: scale(1.04);
+  opacity: 0.82;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+}
+
+/* Duotone Color Overlay Layer (Deep Navy & Cyan/Teal) */
+.lectures-hero-duotone-layer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    125deg,
+    rgba(22, 35, 63, 0.92) 0%,
+    rgba(27, 43, 82, 0.72) 45%,
+    rgba(0, 204, 225, 0.22) 80%,
+    rgba(81, 168, 177, 0.15) 100%
+  );
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* Atmospheric Smoke / Fog & Radial Vignette Gradients for Legibility */
+.lectures-hero-smoke-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 75% 70% at 76% 40%, transparent 25%, rgba(13, 23, 46, 0.42) 70%, rgba(10, 18, 36, 0.95) 100%),
+    linear-gradient(90deg, rgba(10, 18, 36, 0.98) 0%, rgba(13, 23, 46, 0.88) 45%, rgba(13, 23, 46, 0.2) 75%, rgba(13, 23, 46, 0.55) 100%),
+    linear-gradient(0deg, rgba(10, 18, 36, 0.95) 0%, rgba(10, 18, 36, 0.2) 40%, transparent 75%);
+  pointer-events: none;
+}
+
+/* Ambient Glow Orbs */
+.lectures-hero-ambient-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle 380px at 75% 38%, rgba(0, 204, 225, 0.22), transparent 70%),
+    radial-gradient(circle 420px at 15% 30%, rgba(0, 204, 225, 0.12), transparent 70%),
+    radial-gradient(circle 500px at 85% 70%, rgba(63, 79, 146, 0.25), transparent 70%);
+  filter: blur(35px);
+  pointer-events: none;
+}
+
+/* Spatial Graphics (Antigravity Style) */
+.lectures-hero-graphics {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.lectures-hero-grid-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Content Layer */
+.lectures-hero-content {
+  position: relative;
+  z-index: 3;
+}
+
+.lectures-hero-copy {
+  max-width: 860px;
+}
+
+.lectures-hero-badge-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.lectures-glass-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+}
+
+.lectures-badge-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--brand-cyan);
+  box-shadow: 0 0 10px var(--brand-cyan);
+  animation: badge-pulse-anim 2s infinite ease-in-out;
+}
+
+@keyframes badge-pulse-anim {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.5; }
+}
+
+.lectures-hero-meta-tag {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--on-dark-accent);
+  text-transform: uppercase;
+}
+
+.lectures-hero h1 {
+  font-size: clamp(2.8rem, 5.2vw, 5.2rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: calc(-0.045em + var(--tracking-bump));
+  margin: 0 0 28px;
+  color: var(--white);
+  text-wrap: balance;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.lectures-hero h1 em {
+  font-style: normal;
+  color: var(--on-dark-accent);
+}
+
+.lectures-hero-lead {
+  font-size: clamp(1.08rem, 1.35vw, 1.25rem);
+  line-height: 1.75;
+  color: var(--on-dark-muted);
+  max-width: 720px;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.lectures-split { display:grid; grid-template-columns:.85fr 1.15fr; gap:clamp(40px,8vw,120px); align-items:start; }
+.lectures-rule { display:block; width:80px; height:2px; background:var(--brand-teal); margin-top:45px; }
+.lectures-method p:last-child,.lectures-simplex p:last-child { margin:0; }
+.lectures-sticky { position:sticky; top:100px; }
+.lectures-stages { display:flex; gap:24px; margin-top:50px; font-family:var(--mono); color:var(--on-dark-accent); }
+.lectures-stages span { padding-top:16px; border-top:1px solid var(--line-dark); flex:1; }
+.lectures-module { border-top:1px solid var(--line-dark); padding:28px 0 54px; }
+.lectures-module:last-child { padding-bottom:0; }
+.lectures-module-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+.lectures-module-top .lectures-label { margin:0; }
+.lectures-module-number { font-size:64px; line-height:1; letter-spacing: calc(-.08em + var(--tracking-bump)); color:var(--blue-400); }
+.lectures-module ul { list-style:none; margin:28px 0; padding:0; }
+.lectures-module li { padding:12px 0 12px 24px; border-bottom:1px solid var(--line-dark); position:relative; }
+.lectures-module li::before { content:''; width:5px; height:5px; background:var(--brand-teal); position:absolute; top:24px; left:0; }
+.lectures-module .lectures-conclusion { border-left:2px solid var(--brand-teal); padding-left:24px; margin-bottom:0; }
+.lectures-interaction { background:var(--blue-50); }
+.lectures-interaction blockquote { margin:60px 0 0; max-width:1000px; }
+.lectures-interaction blockquote p { font-size:clamp(1.65rem,3vw,2.8rem); line-height:1.45; letter-spacing: calc(-.035em + var(--tracking-bump)); margin:0; color:var(--brand-blue); }
+.lectures-simplex { background:var(--brand-blue); }
+.lectures-logo { position:sticky; top:180px; padding-top:75px; }
+.lectures-logo img { width:min(100%,360px); }
+.lectures-simplex h2 span { display:block; font-size:.65em; margin-top:16px; line-height:1.4; }
+.lectures-simplex .lectures-emphasis { color:var(--on-dark-accent); border-top:1px solid var(--line-dark); padding-top:24px; }
+.lectures-heading { max-width:800px; margin-bottom:64px; }
+.lectures-audience-grid { display:grid; grid-template-columns:1fr 1fr; column-gap:70px; }
+.lectures-audience-grid article { display:flex; gap:26px; padding:28px 0; border-top:1px solid var(--border); }
+.lectures-index { font-family:var(--mono); font-size:12px; color:var(--on-light-accent); padding-top:6px; }
+.lectures-audience-grid h3 { margin-bottom:10px; }
+.lectures-audience-grid p { margin:0; color:var(--muted-foreground); }
+.lectures-format-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.lectures-format-card {
+  padding: 36px 32px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(16, 26, 48, 0.72) 100%
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 16px;
+  box-shadow: 0 20px 45px rgba(3, 12, 27, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.lectures-format-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 204, 225, 0.45);
+  box-shadow: 0 24px 50px rgba(3, 12, 27, 0.45), 0 0 24px rgba(0, 204, 225, 0.15);
+}
+.lectures-format-card:nth-child(2) {
+  border-color: rgba(0, 204, 225, 0.35);
+  background: linear-gradient(
+    145deg,
+    rgba(0, 204, 225, 0.12) 0%,
+    rgba(22, 35, 63, 0.85) 100%
+  );
+  box-shadow: 0 24px 50px rgba(3, 12, 27, 0.45), 0 0 24px rgba(0, 204, 225, 0.1);
+}
+.lectures-format-number { display:block; font-size:clamp(3.8rem,6vw,6rem); line-height:1; font-weight:400; letter-spacing: calc(-.07em + var(--tracking-bump)); color:var(--on-dark-accent); margin-bottom:42px; }
+.lectures-format-card h3 { margin-bottom: 14px; font-weight: 400; }
+.lectures-format-card p { margin:0; color: var(--on-dark-muted); line-height: 1.7; }
+.lectures-format-note { margin:32px 0 0 !important; color: var(--on-dark-muted); font-size: 0.95rem; }
+
+/* CTA Banner in Formats Section (Glassmorphism Padrão) */
+.lectures-format-cta-banner {
+  margin-top: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 24px 34px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.10) 0%,
+    rgba(16, 26, 48, 0.78) 100%
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 24px 50px rgba(3, 12, 27, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+.lectures-format-cta-banner:hover {
+  border-color: rgba(0, 204, 225, 0.4);
+  box-shadow: 0 28px 56px rgba(3, 12, 27, 0.55), 0 0 28px rgba(0, 204, 225, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.lectures-format-cta-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.lectures-format-cta-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 204, 225, 0.3);
+  background: rgba(0, 204, 225, 0.08);
+  color: var(--brand-cyan);
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 204, 225, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.lectures-format-cta-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lectures-format-cta-title {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(1.05rem, 1.25vw, 1.22rem);
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: calc(-0.02em + var(--tracking-bump));
+  line-height: 1.25;
+}
+
+.lectures-format-cta-desc {
+  margin: 0 !important;
+  font-size: 0.92rem;
+  color: var(--on-dark-muted);
+  line-height: 1.5;
+  letter-spacing: calc(-0.01em + var(--tracking-bump));
+}
+
+.lectures-format-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 28px;
+  border-radius: 999px;
+  border: 1.5px solid var(--brand-cyan);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 204, 225, 0.08) 0%,
+    rgba(0, 204, 225, 0.02) 100%
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--brand-cyan);
+  font-family: var(--body);
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: calc(0.08em + var(--tracking-bump));
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(0, 204, 225, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.lectures-format-cta-btn .arrow {
+  font-family: var(--display);
+  font-size: 1.15em;
+  line-height: 1;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lectures-format-cta-btn:hover {
+  transform: translateY(-2px);
+  background: var(--brand-cyan);
+  color: var(--blue-950);
+  box-shadow: 0 0 28px rgba(0, 204, 225, 0.5), 0 8px 20px rgba(0, 0, 0, 0.3);
+  border-color: var(--brand-cyan);
+}
+
+.lectures-format-cta-btn:hover .arrow {
+  transform: translateX(4px);
+}
+
+.lectures-format-cta-btn:focus-visible {
+  outline: 2px solid var(--brand-cyan);
+  outline-offset: 4px;
+}
+.lectures-results-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:40px 50px; }
+.lectures-results-grid article { padding-top:24px; border-top:1px solid var(--border); }
+.lectures-result-dot { display:block; width:10px; height:10px; background:var(--brand-teal); margin-bottom:28px; }
+.lectures-results-grid p { color:var(--muted-foreground); margin:0; }
+.lectures-results-quote { margin:70px 0 0; max-width:900px; border-left:2px solid var(--brand-teal); padding-left:28px; }
+.lectures-results-quote p { margin:0; }
+.lectures-page a:focus-visible { outline:2px solid var(--ring); outline-offset:6px; }
+@media (hover:hover) and (prefers-reduced-motion:no-preference) { .lectures-format-card { transition:transform .25s ease,border-color .25s ease; } .lectures-format-card:hover { transform:translateY(-6px); border-color:var(--brand-teal); } .lectures-audience-grid article h3,.lectures-results-grid article h3 { transition:color .25s ease; } .lectures-audience-grid article:hover h3,.lectures-results-grid article:hover h3 { color:var(--on-light-accent); } }
+@media (max-width:900px) { .lectures-container { width:calc(100% - 48px); } .lectures-hero-grid { gap:20px; grid-template-columns:1fr .8fr; } .lectures-portrait-image { height:510px; } .lectures-hero-copy { padding-bottom:55px; } .lectures-split { grid-template-columns:1fr; gap:32px; } .lectures-sticky,.lectures-logo { position:static; } .lectures-logo { padding-top:0; } .lectures-stages { max-width:300px; } .lectures-format-card { padding:24px; } .lectures-results-grid { grid-template-columns:1fr 1fr; } .lectures-format-cta-banner { flex-direction:column; align-items:flex-start; gap:22px; padding:24px; } .lectures-format-cta-btn { width:100%; } }
+@media (max-width:600px) { .lectures-container { width:calc(100% - 40px); } .lectures-hero { padding-top:130px; } .lectures-hero-grid { grid-template-columns:1fr; gap:0; } .lectures-hero-copy { padding-bottom:24px; } .lectures-hero h1 { font-size:clamp(2.8rem,12vw,4rem); } .lectures-portrait-image { height:410px; } .lectures-heading { margin-bottom:40px; } .lectures-audience-grid,.lectures-format-grid,.lectures-results-grid { grid-template-columns:1fr; } .lectures-format-card { padding:28px; } .lectures-format-number { margin-bottom:30px; } .lectures-interaction blockquote { margin-top:36px; } .lectures-module-number { font-size:52px; } .lectures-results-quote { margin-top:45px; } .lectures-format-cta-info { flex-direction:column; align-items:flex-start; gap:16px; } }
+@media (prefers-reduced-motion:reduce) { .lectures-page [data-lecture-reveal],.lectures-page [data-magnet] { opacity:1 !important; transform:none !important; } }

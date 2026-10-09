@@ -1,0 +1,122 @@
+---
+import "../index.css"
+import MotionRuntime from "../components/layout/MotionRuntime"
+import { PreFooterCTA } from "../components/layout/PreFooterCTA"
+import { Footer } from "../components/layout/Footer"
+import { getPageMetadata, personSchema } from "../data/site"
+import simplexLogo from "../imports/optimized/simplex-branco-320.webp"
+import simplexLogoColor from "../imports/optimized/simplex-colorido-320.webp"
+
+const { title, description, url, image } = getPageMetadata(Astro.url.pathname)
+
+const rawPath = Astro.url.pathname.replace(/\/$/, "") || "/"
+const navItems = [
+  { href: "/", label: "Início" },
+  { href: "/sobre", label: "Sobre" },
+  { href: "/palestras", label: "Palestras" },
+  { href: "/contato", label: "Contato" },
+]
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={image} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="flex items-center gap-4 md:gap-6">
+        <a href="/" class="brand" aria-label="Fernando Gonçalves — início">
+          <b>FERNANDO</b>
+          <span>GONÇALVES</span>
+        </a>
+        <a href="/palestras" class="border-l border-white/25 pl-4 md:pl-6" aria-label="Conheça o método SIMPLEX">
+          <span class="header-logo-switch">
+            <img src={simplexLogo.src} alt="" class="header-logo header-logo--light h-14 w-14 md:h-16 md:w-16" />
+            <img src={simplexLogoColor.src} alt="" class="header-logo header-logo--color h-14 w-14 md:h-16 md:w-16" />
+          </span>
+        </a>
+      </div>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Abrir menu de navegação">
+        <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
+      </button>
+      <nav id="main-nav" aria-label="Navegação principal">
+        {navItems.map((item) => {
+          const isActive = item.href === "/"
+            ? rawPath === "/"
+            : rawPath === item.href || rawPath.startsWith(`${item.href}/`);
+          return (
+            <a
+              href={item.href}
+              data-nav-link
+              aria-current={isActive ? "page" : undefined}
+              class:list={[{ "is-active": isActive }]}
+            >
+              {item.label}
+            </a>
+          );
+        })}
+      </nav>
+      <a href="/contato" class="header-cta">Solicitar proposta <span aria-hidden="true" class="arrow">↗</span></a>
+      <noscript>
+        <div class="flex flex-wrap gap-3 text-xs">
+          <a href="/">Início</a><a href="/sobre">Sobre</a><a href="/palestras">Palestras</a><a href="/contato">Contato</a>
+        </div>
+      </noscript>
+    </header>
+    <main id="conteudo" class="route-surface outline-none" tabindex="-1">
+      <slot />
+    </main>
+    <PreFooterCTA />
+    <Footer />
+    <MotionRuntime client:load />
+    <script is:inline>
+      const menu = document.querySelector(".menu-button");
+      const nav = document.querySelector("#main-nav");
+      const setMenu = (open) => {
+        menu?.setAttribute("aria-expanded", String(open));
+        menu?.setAttribute("aria-label", open ? "Fechar menu de navegação" : "Abrir menu de navegação");
+        nav?.classList.toggle("is-open", open);
+      };
+      menu?.addEventListener("click", () => {
+        setMenu(menu.getAttribute("aria-expanded") !== "true");
+      });
+      nav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenu(false)));
+
+      // Sincronização do link ativo no menu
+      const syncActiveNav = () => {
+        const path = window.location.pathname.replace(/\/$/, "") || "/";
+        nav?.querySelectorAll("a[data-nav-link]").forEach((link) => {
+          const href = link.getAttribute("href")?.replace(/\/$/, "") || "/";
+          const isActive = href === "/" ? path === "/" : path === href || path.startsWith(href + "/");
+          if (isActive) {
+            link.setAttribute("aria-current", "page");
+            link.classList.add("is-active");
+          } else {
+            link.removeAttribute("aria-current");
+            link.classList.remove("is-active");
+          }
+        });
+      };
+      syncActiveNav();
+      window.addEventListener("popstate", syncActiveNav);
+    </script>
+  </body>
+</html>

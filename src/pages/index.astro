@@ -1,0 +1,116 @@
+---
+import MainLayout from "../layouts/MainLayout.astro"
+import stage from "../imports/optimized/fernando-profissional-1280.webp"
+import stageSmall from "../imports/optimized/fernando-profissional-640.webp"
+import heroBgOffice from "../imports/optimized/equipe-motivada-1200.webp"
+import { Portrait } from "../components/ui/Portrait"
+import { AnimatedText } from "../components/ui/AnimatedText"
+import { TeamChallenge } from "../components/sections/TeamChallenge"
+import { HighlightsStrip } from "../components/sections/HighlightsStrip"
+import { SimplexMethod } from "../components/sections/SimplexMethod"
+import { LectureExperience } from "../components/sections/LectureExperience"
+import { HiringJourney } from "../components/sections/HiringJourney"
+import { LectureFormats } from "../components/sections/LectureFormats"
+import { Testimonials } from "../components/sections/Testimonials"
+import { PurposeResults } from "../components/sections/PurposeResults"
+---
+
+<MainLayout>
+  <section class="hero section-grid relative">
+    {/* Backdrop com animação de scroll (PROTAGONISTAS) + Halo + Ring + Fundo suave */}
+    <div class="hero-backdrop absolute inset-0 z-0 pointer-events-none overflow-hidden" style="grid-column: 1 / -1;" aria-hidden="true">
+      <img
+        src={heroBgOffice.src}
+        alt=""
+        class="w-full h-full object-cover object-[75%_center] opacity-25 mix-blend-luminosity"
+        style="mask-image: linear-gradient(to right, transparent 0%, transparent 15%, black 60%, black 100%), linear-gradient(to bottom, black 80%, transparent 100%); -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 15%, black 60%, black 100%), linear-gradient(to bottom, black 80%, transparent 100%); mask-composite: intersect; -webkit-mask-composite: source-in;"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-[var(--ink)] via-[var(--ink)]/80 to-transparent"></div>
+      
+      {/* Ghost text com animação no scroll */}
+      <span class="hero-ghost" aria-hidden="true">PROTAGONISTAS</span>
+      <span class="hero-halo" aria-hidden="true"></span>
+      <span class="hero-ring" aria-hidden="true"></span>
+    </div>
+
+    {/* Scrim gradiente protetor para mobile (alto contraste sem conflito de cor) */}
+    <div class="hero-mobile-scrim" aria-hidden="true"></div>
+
+    <div class="hero-copy relative z-10">
+      <h1>
+        <span class="line"><span>Transforme</span></span>
+        <span class="line"><span><i class="h1-break">adversidades</i> <span class="h1-break">em força.</span></span></span>
+      </h1>
+      <h2 class="hero-subtitle">Transforme<br />pessoas em<br /><span>protagonistas</span>.</h2>
+      <p class="hero-lead">Há mais de três décadas, transformando histórias de vida em novos caminhos para pessoas e equipes.</p>
+      <div class="actions">
+        <a class="button" href="/palestras">Conheça o trabalho <span aria-hidden="true" class="arrow">↗</span></a>
+        <a class="button button--secondary" href="/contato">Solicite uma palestra <span aria-hidden="true" class="arrow">↗</span></a>
+      </div>
+    </div>
+
+    <div class="hero-portrait relative z-[1]" data-parallax="0.14" data-parallax-anchor="top">
+      {/* Background Glowing Panes (Reference Style - below head level) */}
+      <div class="absolute inset-0 z-[-1] pointer-events-none flex items-center justify-center">
+        <div class="absolute top-[22%] right-[-10%] w-[125%] h-[75%] border-r border-t border-[var(--brand-cyan)]/30 bg-gradient-to-tr from-transparent to-[var(--brand-cyan)]/8 shadow-[0_0_35px_rgba(0,204,225,0.12)] backdrop-blur-[2px]" style="clip-path: polygon(20% 100%, 100% 0, 100% 100%);"></div>
+        <div class="absolute top-[18%] right-[20%] w-[85%] h-[68%] border-l border-t border-[var(--brand-blue)]/50 bg-gradient-to-tl from-transparent to-[var(--brand-blue)]/20 backdrop-blur-[2px]" style="clip-path: polygon(0 0, 100% 30%, 80% 100%, 0 70%);"></div>
+      </div>
+      
+      <Portrait critical className="hero-cutout relative z-10" />
+
+      {/* Subtle Suit Ambient Light Sheen */}
+      <div class="hero-portrait-suit-sheen" aria-hidden="true"></div>
+      
+      {/* Glassmorphism Badge */}
+      <div class="hero-badge" aria-hidden="true">
+        <strong>30+</strong>
+        <span>anos transformando<br />histórias em atitude</span>
+      </div>
+
+      {/* 3D Foreground Glowing Pane - slices in front of Fernando */}
+      <div class="absolute inset-0 z-20 pointer-events-none">
+        <div class="absolute bottom-[3%] left-[-20%] w-[85%] h-[42%] bg-gradient-to-t from-[var(--brand-cyan)]/15 to-transparent border-t border-r border-[var(--brand-cyan)]/40 backdrop-blur-[1px]" style="clip-path: polygon(0 100%, 100% 0, 100% 100%);"></div>
+      </div>
+    </div>
+  </section>
+  <HighlightsStrip />
+  <TeamChallenge />
+  <SimplexMethod client:visible />
+  <LectureExperience client:visible />
+  <HiringJourney client:visible />
+  <section class="story section-grid">
+    <div class="story-image" data-aos="mask">
+      <img src={stage.src} srcset={`${stageSmall.src} 640w, ${stage.src} 1280w`} sizes="(max-width: 900px) 100vw, 50vw" width="1280" height="853" alt="Fernando Gonçalves em ambiente profissional" loading="lazy" data-parallax="0.04" />
+      <span>UMA VOZ QUE COMEÇA PELA ESCUTA</span>
+    </div>
+    <div class="story-copy" data-aos="compose">
+      <div data-step="1">
+        <h2><AnimatedText text="Quando a experiência vira" /> <i>propósito.</i></h2>
+      </div>
+      <p data-step="2">Uma história de dificuldades, recomeços e responsabilidade pelas próprias escolhas. Desde 1992, Fernando compartilha essa vivência com pessoas e equipes.</p>
+      <a href="/sobre" class="text-link" data-step="3">Conheça a trajetória <span aria-hidden="true" class="arrow">↗</span></a>
+    </div>
+  </section>
+  <LectureFormats client:visible />
+  <Testimonials client:visible />
+  <PurposeResults />
+  <script is:inline>
+    // Fallback de scroll para .hero-ghost caso o navegador não suporte CSS scroll-driven animations
+    if (!CSS.supports || !CSS.supports("animation-timeline", "scroll()")) {
+      const ghost = document.querySelector(".hero-ghost");
+      if (ghost) {
+        let ticking = false;
+        window.addEventListener("scroll", () => {
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              const scrolled = Math.min(1, Math.max(0, window.scrollY / (window.innerHeight || 800)));
+              ghost.style.transform = `translateX(${-60 * scrolled}%)`;
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+      }
+    }
+  </script>
+</MainLayout>

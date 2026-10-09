@@ -1,0 +1,81 @@
+---
+import MainLayout from "../layouts/MainLayout.astro"
+import Sobre from "../components/pages/Sobre"
+---
+<MainLayout>
+  <Sobre />
+</MainLayout>
+
+<script>
+  import { gsap } from "gsap"
+  import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+  function initSobre() {
+    gsap.registerPlugin(ScrollTrigger)
+    const root = document.querySelector(".about-page")
+    if (!root) return
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (prefersReducedMotion) return
+
+    // Opening hero reveal
+    const heroElements = root.querySelectorAll(".about-opening .about-hero-content > *")
+    if (heroElements.length) {
+      gsap.from(heroElements, {
+        y: 24,
+        opacity: 0,
+        duration: 0.9,
+        stagger: 0.12,
+        ease: "power3.out",
+        clearProps: "all"
+      })
+    }
+
+    // Scroll reveal elements
+    root.querySelectorAll<HTMLElement>("[data-about-reveal]").forEach((element) => {
+      gsap.from(element, {
+        y: 24,
+        opacity: 0,
+        duration: 0.85,
+        ease: "power3.out",
+        clearProps: "all",
+        scrollTrigger: {
+          trigger: element,
+          start: "top 94%",
+          once: true
+        }
+      })
+    })
+
+    // Timeline progress line
+    const timeline = root.querySelector(".about-timeline")
+    const progress = root.querySelector("[data-about-progress]")
+    if (timeline && progress) {
+      gsap.fromTo(progress,
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: timeline,
+            start: "top 65%",
+            end: "bottom 65%",
+            scrub: 0.5
+          }
+        }
+      )
+    }
+
+    ScrollTrigger.refresh()
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSobre)
+  } else {
+    initSobre()
+  }
+
+  document.fonts?.ready?.then(() => {
+    ScrollTrigger.refresh()
+  })
+</script>

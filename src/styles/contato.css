@@ -1,0 +1,71 @@
+.contact-page { font-family:var(--body); font-size:16px; color:var(--foreground); background:var(--paper); }
+.contact-page p { font-size:16px; line-height:1.8; margin:0 0 24px; }
+.contact-page h2,.contact-page h3,.contact-page h4 { font-weight:300; }
+.contact-page h2 { font-size:clamp(1.7rem,3vw,2.65rem); line-height:1.15; letter-spacing: calc(-.04em + var(--tracking-bump)); margin:0 0 22px; text-wrap:balance; }
+.contact-page h3 { font-size:1.25rem; line-height:1.4; margin:0 0 20px; }
+.contact-page-container { width:min(1240px,calc(100% - 96px)); margin-inline:auto; }
+.contact-page-section { padding-block:clamp(72px,8vw,112px); }
+.contact-page .contact-page-label { font-family:var(--mono); font-size:12px; line-height:1.4; letter-spacing:.1em; color:var(--on-light-accent); margin:0 0 26px; }
+.contact-page-hero { background:var(--brand-blue); color:var(--white); padding-top:145px; }
+.contact-page-hero-grid { display:grid; grid-template-columns:1.25fr .75fr; gap:32px; align-items:end; }
+.contact-page-hero-copy { padding-bottom:74px; padding-top:10px; }
+.contact-page-hero .contact-page-label { color:var(--on-dark-accent); }
+.contact-page-hero h1 { font-size:clamp(2.8rem,5.2vw,5rem); font-weight:400; line-height:1.07; letter-spacing: calc(-.05em + var(--tracking-bump)); margin:0 0 30px; max-width:750px; }
+.contact-page-hero h1 span { display:block; color:var(--on-dark-accent); }
+.contact-page-hero .contact-page-hero-text { max-width:650px; color:var(--on-dark-muted); margin:0; }
+.contact-page-hero-cta { margin-top:36px; }
+.contact-page-hero-cta .button { min-height:56px; background:var(--accent); color:var(--ink); box-shadow:0 14px 28px rgb(0 204 225 / 16%); }
+.contact-page-hero-cta .button:hover { background:var(--cyan-300); }
+.contact-page-photo { width:100%; height:650px; object-fit:contain; object-position:center bottom; display:block; }
+.contact-page-main-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:clamp(48px,7vw,100px); align-items:start; }
+.contact-page-form-column header { max-width:650px; margin-bottom:38px; }
+.contact-page-form-column header p:last-child { color:var(--muted-foreground); margin:0; }
+.contact-page-form { display:flex; flex-direction:column; gap:24px; }
+.contact-page-form-row { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+.contact-page-form label { display:flex; flex-direction:column; gap:10px; font-size:14px; line-height:1.6; font-weight:500; min-width:0; }
+.contact-page-form input:not([type=hidden]),.contact-page-form select,.contact-page-form textarea { display:block; width:100%; min-width:0; min-height:56px; padding:15px 16px; font:400 16px/1.5 var(--body); color:var(--foreground); border:1px solid var(--blue-200); border-radius:3px; background:var(--white); outline-offset:3px; transition:border-color .2s,box-shadow .2s; }
+.contact-page-form input::placeholder,.contact-page-form textarea::placeholder { color:var(--gray-500); opacity:1; }
+.contact-page-form select { padding-right:30px; text-overflow:ellipsis; cursor:pointer; }
+.contact-page-form textarea { resize:vertical; min-height:156px; }
+.contact-page-form input:focus,.contact-page-form select:focus,.contact-page-form textarea:focus { border-color:var(--cyan-700); box-shadow:0 0 0 3px var(--focus-shadow); }
+.contact-page-form input:user-invalid { border-color:var(--destructive); }
+.contact-page-form .contact-page-disclosure { font-size:14px; color:var(--muted-foreground); line-height:1.7; margin:0; }
+.contact-magnet { display:inline-block; width:fit-content; max-width:100%; }
+.contact-page-submit { min-height:56px; border:0; cursor:pointer; background:var(--brand-blue); color:var(--white); padding:18px 28px; }
+.contact-page-submit:hover { background:var(--brand-indigo); }
+.contact-page-aside { position:sticky; top:100px; }
+.contact-page-direct { background:var(--blue-50); padding:38px 32px; border-top:3px solid var(--brand-teal); }
+.contact-page-direct h2 { font-size:clamp(1.5rem,2.4vw,2.1rem); }
+.contact-page-channel { display:flex; align-items:start; gap:18px; padding:24px 0; border-bottom:1px solid var(--blue-200); }
+.contact-page-channel-icon { display:flex; justify-content:center; align-items:center; width:32px; height:32px; flex-shrink:0; color:var(--on-light-accent); font-size:24px; line-height:1; }
+.contact-page-channel > span:last-child { min-width:0; }
+.contact-page-channel-label { display:block; font-size:14px; line-height:1.5; color:var(--muted-foreground); margin-bottom:8px; }
+.contact-page-channel-value { display:block; font-size:16px; line-height:1.6; overflow-wrap:anywhere; color:var(--brand-blue); }
+.contact-page-location p { margin:0; }
+.contact-page-location .contact-page-channel-label { font-size:14px; margin-bottom:8px; }
+.contact-page-location p:last-child { color:var(--muted-foreground); margin-top:8px; }
+.contact-page-socials { padding-top:30px; }
+.contact-page-socials a { display:flex; justify-content:space-between; align-items:center; gap:12px; min-height:48px; padding:12px 0; font-size:14px; line-height:1.6; }
+.contact-page-socials a > span { overflow-wrap:anywhere; }
+.contact-page-socials a > span > span { color:var(--muted-foreground); }
+.contact-page-socials .arrow { flex-shrink:0; color:var(--on-light-accent); }
+.contact-page-status { padding:24px; background:var(--blue-50); border:1px solid var(--blue-200); border-left:3px solid var(--brand-teal); }
+.contact-page-status p { margin-bottom:18px; }
+.contact-page-status-actions { display:flex; gap:12px; flex-wrap:wrap; }
+.contact-page-status .button { background:var(--brand-blue); color:var(--white); font-size:14px; }
+.contact-page-status .button--secondary { background:transparent; border-color:var(--blue-300); color:var(--brand-blue); }
+.contact-page-faq { background:var(--blue-50); border-top:1px solid var(--blue-200); }
+.contact-page-faq-grid { display:grid; grid-template-columns:.75fr 1.25fr; gap:70px; }
+.contact-page-question { border-top:1px solid var(--blue-200); }
+.contact-page-question:last-child { border-bottom:1px solid var(--blue-200); }
+.contact-page-question summary { display:flex; justify-content:space-between; align-items:center; gap:24px; cursor:pointer; padding:24px 0; min-height:72px; font-size:18px; font-weight:400; line-height:1.5; list-style:none; }
+.contact-page-question summary::-webkit-details-marker { display:none; }
+.contact-page-question summary span { color:var(--on-light-accent); font-size:24px; flex-shrink:0; transition:transform .2s; }
+.contact-page-question[open] summary span { transform:rotate(45deg); }
+.contact-page-question p { padding-right:30px; color:var(--muted-foreground); margin:0 0 26px; }
+.contact-page a:focus-visible,.contact-page button:focus-visible,.contact-page summary:focus-visible,.contact-page-status:focus { outline:2px solid var(--ring); outline-offset:5px; }
+@media (hover:hover) { .contact-page-channel[href],.contact-page-socials a { transition:color .2s,transform .2s; } .contact-page-channel[href]:hover,.contact-page-socials a:hover { color:var(--on-light-accent); transform:translateX(4px); } .contact-page-channel[href]:hover .contact-page-channel-value { color:var(--on-light-accent); } }
+@media (max-width:1000px) { .contact-page-container { width:calc(100% - 48px); } .contact-page-hero-grid { grid-template-columns:1.2fr .8fr; gap:20px; } .contact-page-photo { height:560px; } .contact-page-main-grid { gap:36px; grid-template-columns:1.2fr .8fr; } .contact-page-direct { padding:28px 22px; } }
+@media (max-width:760px) { .contact-page-hero-grid { grid-template-columns:1fr; } .contact-page-hero-copy { padding-bottom:8px; } .contact-page-photo { height:430px; } .contact-page-main-grid,.contact-page-faq-grid { grid-template-columns:1fr; gap:52px; } .contact-page-aside { position:static; } .contact-page-direct { padding:32px; } .contact-page-faq-grid { gap:24px; } }
+@media (max-width:480px) { .contact-page-container { width:calc(100% - 40px); } .contact-page-hero { padding-top:132px; } .contact-page-hero h1 { font-size:clamp(2.7rem,11vw,3.6rem); } .contact-page-form-row { grid-template-columns:1fr; gap:24px; } .contact-page-direct { padding:28px 22px; } .contact-page-question summary { font-size:16px; } .contact-page-hero .contact-page-hero-text { line-height:1.8; } .contact-page-photo { height:390px; } }
+@media (prefers-reduced-motion:reduce) { .contact-page [data-contact-reveal] { opacity:1 !important; transform:none !important; } .contact-page-channel[href]:hover,.contact-page-socials a:hover { transform:none; } .contact-magnet { transform:none !important; } }
