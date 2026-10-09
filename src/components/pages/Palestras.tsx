@@ -180,7 +180,7 @@ export default function Palestras() {
         {/* Ambient duotone photo backdrop with deep atmospheric fog & vignette */}
         <div className="lectures-hero-backdrop" aria-hidden="true">
           <img
-            src="/palestra-corporativa-fernando.jpg"
+            src="/fernando-palestra-simplex.jpg"
             alt=""
             className="lectures-hero-bg-img"
             loading="eager"
