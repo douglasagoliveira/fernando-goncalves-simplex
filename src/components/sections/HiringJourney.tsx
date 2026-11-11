@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react";
 
 const steps = [
   {
     number: "01",
     title: "Solicite uma proposta",
-    text: "Preencha o formulário com os dados do seu evento. Nossa equipe retorna em até 24h.",
+    text: "Preencha o formulário com os dados do seu evento.",
     icon: "M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14ZM15 15l6 6M7 10h6M10 7v6",
   },
   {
@@ -19,64 +19,64 @@ const steps = [
     text: "No dia do evento, sua equipe vive uma experiência de história, emoção, reflexão, interação e atitude.",
     icon: "M9 3h6v9a3 3 0 0 1-6 0V3ZM5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8",
   },
-]
+];
 
 export function HiringJourney() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [activeStep, setActiveStep] = useState<number | null>(null)
+  const sectionRef = useRef<HTMLElement>(null);
+  const [activeStep, setActiveStep] = useState<number | null>(null);
 
   useEffect(() => {
-    let cancelled = false
-    let dispose: (() => void) | undefined
+    let cancelled = false;
+    let dispose: (() => void) | undefined;
 
     Promise.all([import("gsap"), import("gsap/ScrollTrigger")])
       .then(([{ gsap }, { ScrollTrigger }]) => {
-        if (cancelled || !sectionRef.current) return
-        gsap.registerPlugin(ScrollTrigger)
-        const root = sectionRef.current
-        const media = gsap.matchMedia()
+        if (cancelled || !sectionRef.current) return;
+        gsap.registerPlugin(ScrollTrigger);
+        const root = sectionRef.current;
+        const media = gsap.matchMedia();
         media.add(
           "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
           () => {
             const cards = Array.from(
               root.querySelectorAll<HTMLElement>("[data-journey-card]"),
-            )
+            );
             const track = root.querySelector<HTMLElement>(
               "[data-journey-track]",
-            )
+            );
             const progress = root.querySelector<HTMLElement>(
               "[data-journey-progress]",
-            )
+            );
             const opacitySetters = cards.map((card) =>
               gsap.quickTo(card, "opacity", {
                 duration: 0.45,
                 ease: "power2.out",
               }),
-            )
+            );
             const scaleSetters = cards.map((card) =>
               gsap.quickTo(card, "scale", {
                 duration: 0.55,
                 ease: "power2.out",
               }),
-            )
-            let current = -1
+            );
+            let current = -1;
 
             const updateActive = () => {
               const distances = cards.map((card) => {
-                const bounds = card.getBoundingClientRect()
+                const bounds = card.getBoundingClientRect();
                 return Math.abs(
                   bounds.top + bounds.height / 2 - window.innerHeight / 2,
-                )
-              })
-              const nearest = distances.indexOf(Math.min(...distances))
-              if (nearest === current) return
-              current = nearest
-              setActiveStep(nearest)
+                );
+              });
+              const nearest = distances.indexOf(Math.min(...distances));
+              if (nearest === current) return;
+              current = nearest;
+              setActiveStep(nearest);
               cards.forEach((_, index) => {
-                opacitySetters[index](index === nearest ? 1 : 0.4)
-                scaleSetters[index](index === nearest ? 1 : 0.97)
-              })
-            }
+                opacitySetters[index](index === nearest ? 1 : 0.4);
+                scaleSetters[index](index === nearest ? 1 : 0.97);
+              });
+            };
 
             ScrollTrigger.create({
               trigger: track,
@@ -84,34 +84,38 @@ export function HiringJourney() {
               end: "bottom top",
               onUpdate: updateActive,
               onRefresh: updateActive,
-            })
-            gsap.fromTo(progress, { scaleY: 0 }, {
-              scaleY: 1,
-              ease: "none",
-              scrollTrigger: {
-                trigger: track,
-                start: "top center",
-                end: "bottom center",
-                scrub: 0.5,
+            });
+            gsap.fromTo(
+              progress,
+              { scaleY: 0 },
+              {
+                scaleY: 1,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: track,
+                  start: "top center",
+                  end: "bottom center",
+                  scrub: 0.5,
+                },
               },
-            })
-            updateActive()
-            return () => setActiveStep(null)
+            );
+            updateActive();
+            return () => setActiveStep(null);
           },
           root,
-        )
-        dispose = () => media.revert()
+        );
+        dispose = () => media.revert();
         document.fonts.ready.then(() => {
-          if (!cancelled) ScrollTrigger.refresh()
-        })
+          if (!cancelled) ScrollTrigger.refresh();
+        });
       })
-      .catch(() => {})
+      .catch(() => {});
 
     return () => {
-      cancelled = true
-      dispose?.()
-    }
-  }, [])
+      cancelled = true;
+      dispose?.();
+    };
+  }, []);
 
   return (
     <section
@@ -246,5 +250,5 @@ export function HiringJourney() {
         </div>
       </div>
     </section>
-  )
+  );
 }
