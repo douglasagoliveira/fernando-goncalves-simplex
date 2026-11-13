@@ -24,21 +24,20 @@ body {
 
 /* DM Mono labels keep their original tracking (bump applies to Switzer only) */
 @layer base {
-  :where(
-      [class*="var(--mono)"],
-      .hero-foot span,
-      .purpose-result-number,
-      .principle span,
-      .format-number,
-      .highlights-strip span,
-      .story-image span,
-      .module>span,
-      .format .duration,
-      .proposal-form label,
-      .life-story-nav a span,
-      .lectures-stages,
-      .lectures-index
-    ) {
+
+  :where([class*="var(--mono)"],
+    .hero-foot span,
+    .purpose-result-number,
+    .principle span,
+    .format-number,
+    .highlights-strip span,
+    .story-image span,
+    .module>span,
+    .format .duration,
+    .proposal-form label,
+    .life-story-nav a span,
+    .lectures-stages,
+    .lectures-index) {
     letter-spacing: normal;
   }
 }
@@ -463,12 +462,10 @@ h2 em {
   inset: 0;
   z-index: 12;
   pointer-events: none;
-  background: radial-gradient(
-    ellipse 85% 65% at 56% 76%,
-    rgba(0, 204, 225, 0.16) 0%,
-    rgba(33, 75, 145, 0.24) 42%,
-    transparent 80%
-  );
+  background: radial-gradient(ellipse 85% 65% at 56% 76%,
+      rgba(0, 204, 225, 0.16) 0%,
+      rgba(33, 75, 145, 0.24) 42%,
+      transparent 80%);
   mix-blend-mode: color-dodge;
   mask-image: linear-gradient(to bottom, transparent 28%, black 48%, black 85%, transparent 98%);
   -webkit-mask-image: linear-gradient(to bottom, transparent 28%, black 48%, black 85%, transparent 98%);
@@ -2157,14 +2154,12 @@ footer {
     z-index: 3;
     pointer-events: none;
     grid-column: 1 / -1;
-    background: linear-gradient(
-      180deg,
-      rgba(16, 26, 48, 0.95) 0%,
-      rgba(16, 26, 48, 0.88) 38%,
-      rgba(27, 43, 82, 0.62) 62%,
-      rgba(27, 43, 82, 0.18) 82%,
-      transparent 100%
-    );
+    background: linear-gradient(180deg,
+        rgba(16, 26, 48, 0.95) 0%,
+        rgba(16, 26, 48, 0.88) 38%,
+        rgba(27, 43, 82, 0.62) 62%,
+        rgba(27, 43, 82, 0.18) 82%,
+        transparent 100%);
   }
 
   .hero-copy {
@@ -2186,14 +2181,12 @@ footer {
   }
 
   .hero-mobile-scrim {
-    background: linear-gradient(
-      180deg,
-      rgba(16, 26, 48, 0.98) 0%,
-      rgba(16, 26, 48, 0.92) 44%,
-      rgba(27, 43, 82, 0.70) 68%,
-      rgba(27, 43, 82, 0.15) 86%,
-      transparent 100%
-    );
+    background: linear-gradient(180deg,
+        rgba(16, 26, 48, 0.98) 0%,
+        rgba(16, 26, 48, 0.92) 44%,
+        rgba(27, 43, 82, 0.70) 68%,
+        rgba(27, 43, 82, 0.15) 86%,
+        transparent 100%);
   }
 
   .hero-copy {
@@ -2258,4 +2251,516 @@ footer {
 .h1-break {
   display: block;
   white-space: nowrap;
+}
+
+/* ==========================================================================
+   Notebooks 14" & 15" (901px–1536px / 1024px–1536px)
+   Standardized viewport folds, typography, cards, grids & spacing.
+   Mobile (<=900px / <=1023px) and PC (>=1537px) remain completely untouched.
+   ========================================================================== */
+@media (min-width: 901px) and (max-width: 1536px) {
+
+  /* Header */
+  .site-header {
+    padding: 12px 14px;
+  }
+
+  .site-header .header-logo {
+    width: 38px;
+    height: 38px;
+  }
+
+  .site-header .brand {
+    font-size: 0.96rem;
+  }
+
+  .site-header nav {
+    gap: 1.35rem;
+    font-size: 0.66rem;
+  }
+
+  .site-header .header-cta {
+    min-height: 38px;
+    padding-inline: 1rem;
+  }
+
+  /* Home Hero: 100% above the fold on 14" & 15" notebooks */
+  .hero {
+    min-height: clamp(550px, 100svh, 690px);
+  }
+
+  .hero-copy {
+    width: 56%;
+    padding: clamp(86px, 14vh, 120px) 0 clamp(36px, 6vh, 56px);
+  }
+
+  .hero h1 {
+    font-size: var(--font-size-h1);
+    line-height: var(--line-height-h1);
+    margin-bottom: 12px;
+    max-width: 620px;
+  }
+
+  .hero-subtitle {
+    max-width: 480px;
+    font-size: var(--font-size-subtitle);
+    line-height: 1.26;
+    margin-bottom: 10px;
+  }
+
+  .hero-lead {
+    max-width: 460px;
+    font-size: 0.91rem;
+    line-height: 1.55;
+  }
+
+  .actions {
+    margin-top: 20px;
+    gap: 10px;
+  }
+
+  .actions .button {
+    min-height: 44px;
+  }
+
+  .hero-portrait {
+    width: min(44vw, 520px);
+    height: clamp(465px, 84vh, 610px);
+    bottom: -16px;
+    right: max(-20px, calc((100% - var(--container-max)) / 2 - 36px));
+  }
+
+  .hero-halo {
+    width: min(56vw, 640px);
+    top: 26%;
+  }
+
+  .hero-ring {
+    width: min(44vw, 520px);
+    right: calc(max(0px, (100% - var(--container-max)) / 2) - 48px);
+  }
+
+  .hero-ghost {
+    font-size: clamp(6rem, 16vw, 13rem);
+  }
+
+  .hero-badge {
+    left: -4%;
+    bottom: 13%;
+    padding: 12px 16px;
+    gap: 12px;
+    max-width: 268px;
+  }
+
+  .hero-badge strong {
+    font-size: 1.85rem;
+  }
+
+  .hero-badge span {
+    font-size: 0.72rem;
+  }
+
+  /* Highlights Strip */
+  .highlights-strip {
+    padding-block: 22px;
+  }
+
+  .highlights-strip strong {
+    font-size: clamp(1.65rem, 2.5vw, 2.3rem);
+  }
+
+  /* Team Challenge */
+  .team-challenge {
+    padding-block: var(--space-section);
+  }
+
+  .team-challenge__heading h2 {
+    max-width: 760px;
+    margin-bottom: var(--space-h2-bottom);
+  }
+
+  .team-challenge__heading>p {
+    max-width: 620px;
+    font-size: clamp(1.06rem, 1.3vw, 1.26rem);
+    line-height: 1.5;
+  }
+
+  .team-challenge__signals {
+    margin-top: 32px;
+    gap: 16px;
+  }
+
+  .team-challenge__signals li {
+    min-height: 88px;
+    padding: 16px;
+  }
+
+  .team-challenge__signals p {
+    font-size: 0.88rem;
+    line-height: 1.48;
+  }
+
+  .team-challenge__closing {
+    margin-top: 28px;
+    font-size: clamp(1rem, 1.25vw, 1.15rem);
+  }
+
+  /* Story Split Section */
+  .story {
+    min-height: clamp(440px, 76vh, 540px);
+  }
+
+  .story-image {
+    min-height: clamp(440px, 76vh, 540px);
+  }
+
+  .story-image img {
+    object-position: center 20%;
+  }
+
+  .story-image span {
+    left: 28px;
+    bottom: 20px;
+  }
+
+  .story-copy {
+    padding: 44px 0 44px 60px;
+  }
+
+  .story-copy h2 {
+    font-size: var(--font-size-h2);
+  }
+
+  .story-copy p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  /* Purpose & Results */
+  .purpose-results {
+    padding: var(--space-section) 28px;
+  }
+
+  .purpose-results-inner {
+    column-gap: clamp(40px, 6vw, 88px);
+    row-gap: 40px;
+  }
+
+  .purpose-results-intro {
+    top: 88px;
+  }
+
+  .purpose-results h2 {
+    font-size: var(--font-size-h2);
+    margin-bottom: 16px;
+  }
+
+  .purpose-results-lead {
+    font-size: 14.5px;
+    line-height: 1.68;
+  }
+
+  .purpose-results-list {
+    gap: 0 28px;
+  }
+
+  .purpose-result,
+  .purpose-result:nth-child(1),
+  .purpose-result:nth-child(2) {
+    min-height: 0;
+    padding: 18px 0 22px 20px;
+  }
+
+  .purpose-result-media {
+    aspect-ratio: 16 / 9.5;
+    margin-bottom: 14px;
+  }
+
+  .purpose-result h3 {
+    font-size: var(--font-size-h3);
+    margin-bottom: 8px;
+  }
+
+  .purpose-result p {
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .purpose-results-quote {
+    margin-top: 8px;
+    padding-top: 24px;
+  }
+
+  .purpose-results-quote>span {
+    font-size: 5.5rem;
+  }
+
+  .purpose-results-quote p {
+    font-size: clamp(1.08rem, 1.5vw, 1.38rem);
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1536px) {
+
+  /* Simplex Method Section */
+  .simplex-section {
+    padding-block: var(--space-section);
+  }
+
+  .simplex-grid {
+    gap: 3rem;
+  }
+
+  .simplex-media-card {
+    max-width: clamp(380px, 33vw, 460px);
+  }
+
+  .simplex-media-img {
+    aspect-ratio: 4 / 3.15;
+  }
+
+  .simplex-title {
+    font-size: var(--font-size-h2);
+    margin-bottom: 0.75rem;
+  }
+
+  .simplex-subtitle {
+    margin-bottom: 1rem;
+  }
+
+  .simplex-body {
+    font-size: 0.91rem;
+    line-height: 1.6;
+    margin-bottom: 1.35rem;
+  }
+
+  /* Lecture Experience (3 Moments) */
+  .lecture-experience {
+    padding-block: clamp(48px, 6vh, 68px);
+  }
+
+  .lecture-experience__title {
+    font-size: var(--font-size-h2);
+  }
+
+  .lecture-experience-note {
+    padding: 14px 18px;
+    font-size: 0.94rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .lecture-experience__modules {
+    margin-top: 28px;
+    gap: 18px;
+  }
+
+  .lecture-experience__card {
+    min-height: 295px;
+    padding: 20px 22px;
+  }
+
+  .lecture-experience__card-head {
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+  }
+
+  .lecture-experience__number {
+    font-size: 2.35rem;
+  }
+
+  .lecture-experience__card-title {
+    font-size: var(--font-size-h3);
+    margin-bottom: 10px;
+  }
+
+  .lecture-experience__card-copy {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    margin-bottom: 18px;
+  }
+
+  .lecture-experience__card-action {
+    min-height: 40px;
+    padding-top: 14px;
+    font-size: 0.85rem;
+  }
+
+  /* Hiring Journey */
+  .hiring-journey {
+    padding-block: var(--space-section);
+  }
+
+  .hiring-journey__grid {
+    gap: 3rem;
+  }
+
+  .hiring-journey__sticky {
+    top: 88px;
+  }
+
+  .hiring-journey__list {
+    gap: 40px;
+  }
+
+  .hiring-journey__card {
+    min-height: 235px;
+    padding: 24px 26px;
+  }
+
+  .hiring-journey__card-head {
+    margin-bottom: 18px;
+  }
+
+  .hiring-journey__number {
+    font-size: clamp(2.5rem, 3.5vw, 3.35rem);
+  }
+
+  /* Lecture Formats (Home) */
+  .lecture-formats {
+    padding-block: clamp(40px, 5.5vh, 64px);
+  }
+
+  .lecture-formats__heading {
+    margin-bottom: 22px;
+  }
+
+  .lecture-formats__grid {
+    gap: 18px;
+  }
+
+  .lecture-formats__card-badge {
+    min-height: 36px;
+  }
+
+  .lecture-formats__card-body {
+    padding: 14px 22px 20px;
+  }
+
+  .lecture-formats__duration {
+    margin-bottom: 12px;
+  }
+
+  .lecture-formats__desc {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+
+  .lecture-formats__ideal {
+    padding-top: 12px;
+    font-size: 0.82rem;
+  }
+
+  .lecture-formats__footer {
+    margin-top: 24px;
+  }
+
+  .lecture-formats__footer p {
+    margin-bottom: 16px;
+  }
+
+  /* Testimonials */
+  .testimonials-section {
+    min-height: 0;
+    padding-top: clamp(36px, 5vh, 54px);
+    padding-bottom: clamp(40px, 5.5vh, 58px);
+  }
+
+  .testimonials-portrait {
+    top: 6px;
+    right: max(0px, calc((100% - 1280px) / 2) - 8px);
+    width: clamp(320px, 29vw, 410px);
+  }
+
+  .testimonials-header {
+    padding-right: clamp(300px, 30vw, 400px);
+  }
+
+  .testimonials-title {
+    font-size: clamp(1.8rem, 2.5vw, 2.35rem);
+  }
+
+  .testimonials-subtitle {
+    font-size: 0.88rem !important;
+    line-height: 1.5 !important;
+    margin-top: 8px;
+  }
+
+  .testimonials-track-wrap {
+    margin-top: -28px;
+  }
+
+  #depoimentos-cards {
+    --card-width: 372px;
+  }
+
+  .testimonials-card {
+    height: 382px;
+    padding: 18px 22px;
+  }
+
+  .testimonials-card figure>div:first-child {
+    margin-bottom: 8px;
+  }
+
+  .testimonials-card blockquote {
+    font-size: 13.75px !important;
+    line-height: 1.5;
+  }
+
+  .testimonials-card figcaption {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  .testimonials-card figcaption img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .testimonials-dots {
+    margin-top: 14px;
+  }
+
+  .testimonials-dots+div {
+    margin-top: 12px;
+  }
+
+  /* PreFooter CTA */
+  .prefooter-inner {
+    padding-block: clamp(48px, 6vh, 68px);
+  }
+
+  .prefooter-grid {
+    gap: 2.5rem;
+  }
+
+  .prefooter-title {
+    font-size: var(--font-size-h2);
+    margin-bottom: 16px;
+  }
+
+  .prefooter-lead {
+    font-size: 0.96rem;
+    line-height: 1.62;
+    margin-bottom: 24px;
+  }
+
+  .prefooter-card-wrap {
+    max-width: 380px;
+  }
+
+  .prefooter-media {
+    aspect-ratio: 4 / 4.05;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding-top: 48px;
+    padding-bottom: 32px;
+  }
+
+  .site-footer__bottom {
+    margin-top: 36px;
+  }
 }

@@ -378,3 +378,98 @@
 @media (max-width:900px) { .lectures-container { width:calc(100% - 48px); } .lectures-hero-grid { gap:20px; grid-template-columns:1fr .8fr; } .lectures-portrait-image { height:510px; } .lectures-hero-copy { padding-bottom:55px; } .lectures-split { grid-template-columns:1fr; gap:32px; } .lectures-sticky,.lectures-logo { position:static; } .lectures-logo { padding-top:0; } .lectures-stages { max-width:300px; } .lectures-format-card { padding:24px; } .lectures-results-grid { grid-template-columns:1fr 1fr; } .lectures-format-cta-banner { flex-direction:column; align-items:flex-start; gap:22px; padding:24px; } .lectures-format-cta-btn { width:100%; } }
 @media (max-width:600px) { .lectures-container { width:calc(100% - 40px); } .lectures-hero { padding-top:130px; } .lectures-hero-grid { grid-template-columns:1fr; gap:0; } .lectures-hero-copy { padding-bottom:24px; } .lectures-hero h1 { font-size:clamp(2.8rem,12vw,4rem); } .lectures-portrait-image { height:410px; } .lectures-heading { margin-bottom:40px; } .lectures-audience-grid,.lectures-format-grid,.lectures-results-grid { grid-template-columns:1fr; } .lectures-format-card { padding:28px; } .lectures-format-number { margin-bottom:30px; } .lectures-interaction blockquote { margin-top:36px; } .lectures-module-number { font-size:52px; } .lectures-results-quote { margin-top:45px; } .lectures-format-cta-info { flex-direction:column; align-items:flex-start; gap:16px; } }
 @media (prefers-reduced-motion:reduce) { .lectures-page [data-lecture-reveal],.lectures-page [data-magnet] { opacity:1 !important; transform:none !important; } }
+
+/* ==========================================================================
+   Notebooks 14" & 15" (901px–1536px)
+   Standardized fold, typography, cards & spacing without affecting PC/Mobile.
+   ========================================================================== */
+@media (min-width: 901px) and (max-width: 1536px) {
+  .lectures-container {
+    width: min(1240px, calc(100% - 64px));
+  }
+  .lectures-section {
+    padding-block: var(--space-section);
+  }
+  .lectures-page h2 {
+    font-size: var(--font-size-h2);
+    margin-bottom: 20px;
+  }
+  .lectures-page h3 {
+    font-size: var(--font-size-h3);
+    margin-bottom: 12px;
+  }
+  .lectures-page p,
+  .lectures-page li {
+    font-size: 15px;
+    line-height: 1.72;
+  }
+  .lectures-hero {
+    padding-top: clamp(92px, 15vh, 132px);
+    padding-bottom: clamp(44px, 7vh, 72px);
+  }
+  .lectures-hero-badge-wrap {
+    margin-bottom: 16px;
+  }
+  .lectures-hero h1 {
+    font-size: var(--font-size-h1);
+    line-height: 1.05;
+    margin-bottom: 16px;
+    max-width: 680px;
+  }
+  .lectures-hero-lead {
+    font-size: clamp(0.98rem, 1.2vw, 1.12rem);
+    line-height: 1.6;
+  }
+  .lectures-hero-copy > div:last-child {
+    margin-top: 22px;
+  }
+  .lectures-split {
+    gap: clamp(32px, 5.5vw, 80px);
+  }
+  .lectures-sticky {
+    top: 88px;
+  }
+  .lectures-stages {
+    margin-top: 32px;
+  }
+  .lectures-module {
+    padding: 22px 0 34px;
+  }
+  .lectures-module-number {
+    font-size: 48px;
+  }
+  .lectures-heading {
+    margin-bottom: 36px;
+  }
+  .lectures-audience-grid {
+    column-gap: 48px;
+  }
+  .lectures-audience-grid article {
+    padding: 20px 0;
+    gap: 20px;
+  }
+  .lectures-format-grid {
+    gap: 18px;
+  }
+  .lectures-format-card {
+    padding: 24px 22px;
+  }
+  .lectures-format-number {
+    font-size: clamp(2.8rem, 4vw, 3.8rem);
+    margin-bottom: 22px;
+  }
+  .lectures-format-cta-banner {
+    margin-top: 28px;
+    padding: 20px 26px;
+    gap: 24px;
+  }
+  .lectures-results-grid {
+    gap: 28px 36px;
+  }
+  .lectures-result-dot {
+    margin-bottom: 18px;
+  }
+  .lectures-results-quote {
+    margin-top: 44px;
+  }
+}

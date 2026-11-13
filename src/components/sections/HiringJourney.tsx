@@ -121,10 +121,10 @@ export function HiringJourney() {
     <section
       ref={sectionRef}
       aria-labelledby="contratar-titulo"
-      className="dark bg-[linear-gradient(90deg,var(--brand-blue),var(--brand-indigo))] px-5 py-20 text-[var(--on-dark)] md:px-7 md:py-28 lg:py-32"
+      className="hiring-journey dark bg-[linear-gradient(90deg,var(--brand-blue),var(--brand-indigo))] px-5 py-20 text-[var(--on-dark)] md:px-7 md:py-28 lg:py-32"
     >
-      <div className="mx-auto grid max-w-[var(--container-max)] gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-start lg:gap-20">
-        <div className="lg:sticky lg:top-32">
+      <div className="hiring-journey__grid mx-auto grid max-w-[var(--container-max)] gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-start lg:gap-20">
+        <div className="hiring-journey__sticky lg:sticky lg:top-32">
           <div data-aos="compose">
             <h2
               id="contratar-titulo"
@@ -194,7 +194,7 @@ export function HiringJourney() {
               className="h-full w-full origin-top bg-[var(--on-dark-accent)]"
             />
           </div>
-          <ol className="m-0 flex list-none flex-col gap-10 pl-7 md:gap-14 md:pl-10 lg:gap-28">
+          <ol className="hiring-journey__list m-0 flex list-none flex-col gap-10 pl-7 md:gap-14 md:pl-10 lg:gap-28">
             {steps.map((step, index) => (
               <li key={step.number} className="relative">
                 <span
@@ -209,12 +209,12 @@ export function HiringJourney() {
                   <article
                     data-journey-card
                     data-active={activeStep === index}
-                    className="relative origin-left rounded-2xl border border-[var(--glass-border)] bg-[var(--glass)] p-7 backdrop-blur-sm motion-safe:transition-[border-color,box-shadow] motion-safe:duration-500 data-[active=true]:border-[var(--on-dark-accent)] data-[active=true]:shadow-[0_0_40px_-18px_var(--on-dark-accent)] md:p-10 lg:min-h-[360px]"
+                    className="hiring-journey__card relative origin-left rounded-2xl border border-[var(--glass-border)] bg-[var(--glass)] p-7 backdrop-blur-sm motion-safe:transition-[border-color,box-shadow] motion-safe:duration-500 data-[active=true]:border-[var(--on-dark-accent)] data-[active=true]:shadow-[0_0_40px_-18px_var(--on-dark-accent)] md:p-10 lg:min-h-[360px]"
                   >
-                    <div className="mb-9 flex items-center justify-between gap-6">
+                    <div className="hiring-journey__card-head mb-9 flex items-center justify-between gap-6">
                       <span
                         aria-hidden="true"
-                        className="font-[family-name:var(--mono)] text-[clamp(3.5rem,5vw,5rem)] font-medium leading-none tracking-tight text-[var(--on-dark-accent)]"
+                        className="hiring-journey__number font-[family-name:var(--mono)] text-[clamp(3.5rem,5vw,5rem)] font-medium leading-none tracking-tight text-[var(--on-dark-accent)]"
                       >
                         {step.number}
                       </span>

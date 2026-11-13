@@ -20,8 +20,8 @@ export function PreFooterCTA() {
       </div>
 
       {/* Main Centered Content Container */}
-      <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 sm:px-8 lg:px-12 py-16 md:py-20 lg:py-24">
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.18fr_0.82fr] lg:gap-14 xl:gap-20">
+      <div className="prefooter-inner relative z-10 mx-auto w-full max-w-[1280px] px-6 sm:px-8 lg:px-12 py-16 md:py-20 lg:py-24">
+        <div className="prefooter-grid grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.18fr_0.82fr] lg:gap-14 xl:gap-20">
           
           {/* Left Column: Content */}
           <div className="flex flex-col justify-center">
@@ -31,7 +31,7 @@ export function PreFooterCTA() {
               Transformação de Equipes
             </div>
 
-            <h2 className="font-display font-light text-3xl sm:text-4xl md:text-[2.75rem] lg:text-[2.85rem] tracking-[calc(-0.025em_+_1px)] text-white mb-6 leading-[1.18]">
+            <h2 className="prefooter-title font-display font-light text-3xl sm:text-4xl md:text-[2.75rem] lg:text-[2.85rem] tracking-[calc(-0.025em_+_1px)] text-white mb-6 leading-[1.18]">
               <span className="md:hidden">
                 Sua equipe precisa de<br />
                 motivação?<br />
@@ -43,7 +43,7 @@ export function PreFooterCTA() {
               <em className="text-[var(--brand-cyan)] italic font-light">Vamos conversar.</em>
             </h2>
             
-            <p className="text-[var(--on-dark-muted)] text-base md:text-lg mb-8 lg:mb-10 leading-relaxed font-light max-w-[540px]">
+            <p className="prefooter-lead text-[var(--on-dark-muted)] text-base md:text-lg mb-8 lg:mb-10 leading-relaxed font-light max-w-[540px]">
               Não deixe a desmotivação virar rotina. Agende uma conversa para entendermos o cenário da sua empresa e decidirmos juntos qual formato trará mais impacto e resultados reais.
             </p>
             
@@ -68,13 +68,13 @@ export function PreFooterCTA() {
           </div>
 
           {/* Right Column: Balanced Portrait Card with Glassmorphic Frame */}
-          <div className="relative mx-auto w-full max-w-[420px] lg:max-w-none">
+          <div className="prefooter-card-wrap relative mx-auto w-full max-w-[420px] lg:max-w-none">
             {/* Ambient halo behind portrait card */}
             <div className="absolute -inset-2 rounded-[28px] bg-gradient-to-tr from-[var(--brand-cyan)]/20 via-transparent to-[var(--brand-blue)]/30 opacity-70 blur-xl pointer-events-none" />
 
             {/* Framed Portrait Card */}
             <div className="relative overflow-hidden rounded-2xl lg:rounded-[24px] border border-white/15 bg-[#121E36]/80 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-sm">
-              <div className="aspect-[4/4.6] sm:aspect-[4/4.5] lg:aspect-[4/4.8] w-full overflow-hidden">
+              <div className="prefooter-media aspect-[4/4.6] sm:aspect-[4/4.5] lg:aspect-[4/4.8] w-full overflow-hidden">
                 <img 
                   src={fernandoRetrato.src} 
                   alt="Fernando Gonçalves" 

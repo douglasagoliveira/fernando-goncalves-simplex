@@ -658,3 +658,124 @@
   .about-page .button { transition:none; transform:none; }
   .about-knowledge-item { transition:none; padding-left:16px !important; }
 }
+
+/* ==========================================================================
+   Notebooks 14" & 15" (1024px–1536px)
+   Standardized fold, typography, cards & spacing without affecting PC/Mobile.
+   ========================================================================== */
+@media (min-width: 1024px) and (max-width: 1536px) {
+  .about-opening {
+    min-height: clamp(540px, 100svh, 680px);
+  }
+  .about-hero-bg-img {
+    object-position: 78% 25%;
+  }
+  .about-hero-content {
+    padding-block: clamp(86px, 14vh, 120px) clamp(38px, 6vh, 58px);
+    max-width: clamp(470px, 46vw, 570px);
+  }
+  .about-opening .about-hero-title {
+    font-size: clamp(2.15rem, 3.3vw, 3.2rem);
+    line-height: 1.06;
+    margin-bottom: 14px;
+  }
+  .about-hero-lead {
+    font-size: 0.94rem !important;
+    line-height: 1.62 !important;
+    margin-bottom: 22px !important;
+  }
+  .about-ghost {
+    font-size: clamp(5.5rem, 15vw, 13rem);
+  }
+  .about-section {
+    padding-block: var(--space-section);
+  }
+  .about-sticky-heading {
+    top: 88px;
+  }
+  .about-timeline-item {
+    padding-bottom: 28px;
+  }
+  .about-experience-header {
+    margin-bottom: 36px;
+  }
+  .about-experience-header h2 {
+    font-size: var(--font-size-h2);
+    margin-block: 12px 14px;
+  }
+  .about-experience-lead {
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+  .about-experience-layout {
+    gap: clamp(28px, 3.5vw, 48px);
+  }
+  .about-experience-showcase {
+    top: 88px;
+    gap: 14px;
+  }
+  .about-experience-photo-card {
+    aspect-ratio: 16 / 9.2;
+  }
+  .about-experience-quote-card {
+    padding: 24px 28px 22px;
+  }
+  .about-quote-mark {
+    top: 14px;
+    right: 20px;
+    font-size: 3.6rem;
+  }
+  .about-quote-text {
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 14px;
+    padding-right: 36px;
+  }
+  .about-quote-author {
+    padding-top: 12px;
+  }
+  .about-experience-grid {
+    gap: 14px;
+  }
+  .about-experience-card {
+    padding: 18px 18px 20px;
+  }
+  .about-card-heading {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .about-card-description {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .about-books-heading {
+    margin-bottom: 36px;
+  }
+  .about-book {
+    padding: 20px 18px 22px;
+  }
+  .about-book-cover {
+    height: 225px;
+    padding: 16px;
+  }
+  .about-book-copy {
+    padding-top: 18px;
+  }
+  .about-book-copy h3 {
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+  }
+  .about-book-copy p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .about-differences-grid {
+    column-gap: 48px;
+  }
+  .about-differences-grid article {
+    padding-block: 22px;
+  }
+  .about-knowledge-item {
+    padding: 16px;
+  }
+}

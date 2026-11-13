@@ -81,10 +81,10 @@ export function LectureFormats() {
     <section
       ref={sectionRef}
       aria-labelledby="formatos-titulo"
-      className="bg-[var(--background)] px-5 py-[var(--space-section)] text-[var(--foreground)] md:px-7"
+      className="lecture-formats bg-[var(--background)] px-5 py-[var(--space-section)] text-[var(--foreground)] md:px-7"
     >
       <div className="mx-auto max-w-[var(--container-max)]">
-        <div data-aos="compose" className="mx-auto mb-14 max-w-3xl text-center">
+        <div data-aos="compose" className="lecture-formats__heading mx-auto mb-14 max-w-3xl text-center">
           <h2
             id="formatos-titulo"
             data-step="0"
@@ -102,21 +102,21 @@ export function LectureFormats() {
           </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="lecture-formats__grid grid gap-6 lg:grid-cols-3">
           {formats.map((format) => (
             <motion.article
               key={format.title}
               data-format-card
               whileHover={reducedMotion ? undefined : { y: -6 }}
               transition={{ type: "spring", stiffness: 240, damping: 24 }}
-              className={`flex h-full flex-col overflow-hidden rounded-[var(--radius)] border motion-safe:transition-[border-color,box-shadow] motion-safe:duration-300 hover:border-[var(--brand-teal)] hover:shadow-[0_16px_36px_-20px_rgba(34,51,92,0.25)] ${
+              className={`lecture-formats__card flex h-full flex-col overflow-hidden rounded-[var(--radius)] border motion-safe:transition-[border-color,box-shadow] motion-safe:duration-300 hover:border-[var(--brand-teal)] hover:shadow-[0_16px_36px_-20px_rgba(34,51,92,0.25)] ${
                 format.featured
                   ? "border-[var(--brand-blue)] bg-[var(--brand-blue)] text-[var(--on-dark)]"
                   : "border-[var(--border)] bg-[var(--card)] text-[var(--card-foreground)]"
               }`}
             >
               <div
-                className={`flex min-h-12 items-center justify-center border-b px-7 font-[family-name:var(--mono)] text-xs uppercase tracking-[0.1em] ${
+                className={`lecture-formats__card-badge flex min-h-12 items-center justify-center border-b px-7 font-[family-name:var(--mono)] text-xs uppercase tracking-[0.1em] ${
                   format.featured
                     ? "border-[var(--line-dark)] bg-[var(--brand-indigo)] text-[var(--on-dark-accent)]"
                     : "border-transparent"
@@ -124,9 +124,9 @@ export function LectureFormats() {
               >
                 {format.featured && "Mais Popular"}
               </div>
-              <div className="flex flex-1 flex-col px-7 pb-8 pt-5 md:px-8 md:pb-9">
+              <div className="lecture-formats__card-body flex flex-1 flex-col px-7 pb-8 pt-5 md:px-8 md:pb-9">
                 <div
-                  className={`mb-7 flex items-center gap-3 ${
+                  className={`lecture-formats__duration mb-7 flex items-center gap-3 ${
                     format.featured
                       ? "text-[var(--on-dark-accent)]"
                       : "text-[var(--on-light-accent)]"
@@ -153,7 +153,7 @@ export function LectureFormats() {
                   {format.title}
                 </h3>
                 <p
-                  className={`mb-8 text-[clamp(0.9375rem,1.15vw,1rem)] leading-relaxed ${
+                  className={`lecture-formats__desc mb-8 text-[clamp(0.9375rem,1.15vw,1rem)] leading-relaxed ${
                     format.featured
                       ? "text-[var(--on-dark-muted)]"
                       : "text-[var(--muted-foreground)]"
@@ -162,7 +162,7 @@ export function LectureFormats() {
                   {format.description}
                 </p>
                 <div
-                  className={`mt-auto border-t pt-6 text-[clamp(0.875rem,1.05vw,0.9375rem)] leading-relaxed ${
+                  className={`lecture-formats__ideal mt-auto border-t pt-6 text-[clamp(0.875rem,1.05vw,0.9375rem)] leading-relaxed ${
                     format.featured
                       ? "border-[var(--line-dark)] text-[var(--on-dark-muted)]"
                       : "border-[var(--border)] text-[var(--muted-foreground)]"
@@ -184,7 +184,7 @@ export function LectureFormats() {
           ))}
         </div>
 
-        <div data-aos="compose" className="mt-12 text-center md:mt-14">
+        <div data-aos="compose" className="lecture-formats__footer mt-12 text-center md:mt-14">
           <p
             data-step="0"
             className="mx-auto mb-7 max-w-2xl text-[clamp(0.9375rem,1.2vw,1rem)] leading-relaxed text-[var(--muted-foreground)]"

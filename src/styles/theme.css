@@ -177,3 +177,24 @@
   --font-mono: var(--mono);
   --container-site: var(--container-max);
 }
+
+/* ==========================================================================
+   Notebooks 14" & 15" (901px–1536px): standardized scale & section rhythm
+   Mobile (<=900px) and PC (>=1537px) remain completely untouched.
+   ========================================================================== */
+@media (min-width: 901px) and (max-width: 1536px) {
+  :root {
+    --space-section: clamp(52px, 6.5vh, 76px);
+    --font-size-h1: clamp(2.35rem, 3.85vw, 3.65rem);
+    --line-height-h1: 0.98;
+    --font-size-h2: clamp(1.9rem, 2.9vw, 2.8rem);
+    --line-height-h2: 1.08;
+    --space-h2-bottom: clamp(0.95rem, 1.4vw, 1.3rem);
+    --font-size-h3: clamp(1.22rem, 1.5vw, 1.48rem);
+    --line-height-h3: 1.24;
+    --space-h3-bottom: clamp(0.6rem, 0.95vw, 0.85rem);
+    --font-size-subtitle: clamp(1.18rem, 1.45vw, 1.45rem);
+    --line-height-subtitle: 1.32;
+    --space-subtitle-bottom: clamp(0.85rem, 1.25vw, 1.15rem);
+  }
+}

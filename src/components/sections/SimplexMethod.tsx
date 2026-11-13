@@ -32,7 +32,7 @@ export function SimplexMethod() {
       ref={sectionRef}
       id="metodo-simplex"
       aria-labelledby="simplex-titulo"
-      className="relative overflow-hidden bg-[#030919] text-white py-20 md:py-28 lg:py-32 px-6 sm:px-8 md:px-12 selection:bg-[#00cce1] selection:text-[#030919]"
+      className="simplex-section relative overflow-hidden bg-[#030919] text-white py-20 md:py-28 lg:py-32 px-6 sm:px-8 md:px-12 selection:bg-[#00cce1] selection:text-[#030919]"
       style={{
         background:
           "radial-gradient(ellipse 70% 50% at 85% 15%, rgba(0, 204, 225, 0.07), transparent 60%), radial-gradient(circle 600px at 15% 70%, rgba(29, 78, 216, 0.14), transparent 70%), linear-gradient(145deg, #020713 0%, #051026 50%, #030a1a 100%)",
@@ -53,10 +53,10 @@ export function SimplexMethod() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-[var(--container-max)]">
-        <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_1.15fr] lg:gap-20">
+        <div className="simplex-grid grid items-center gap-14 lg:grid-cols-[1.05fr_1.15fr] lg:gap-20">
           {/* LEFT COLUMN: Composite Geometric Photo Card with Reveal & Docking Motion */}
           <div className="relative flex justify-center lg:justify-start">
-            <div className="relative w-full max-w-[500px] lg:max-w-[540px]">
+            <div className="simplex-media-card relative w-full max-w-[500px] lg:max-w-[540px]">
               
               {/* 1. Thin Cyan Offset Accent Frame (Left & Bottom border bracket) */}
               <div
@@ -119,7 +119,7 @@ export function SimplexMethod() {
                   height={600}
                   loading="lazy"
                   decoding="async"
-                  className="w-full h-auto object-cover aspect-[4/3.5] sm:aspect-[4/3.4] block transition-transform duration-700 hover:scale-[1.02]"
+                  className="simplex-media-img w-full h-auto object-cover aspect-[4/3.5] sm:aspect-[4/3.4] block transition-transform duration-700 hover:scale-[1.02]"
                 />
 
                 {/* Subtle Chamfer Highlight Line on Top-Right Cut */}
@@ -161,7 +161,7 @@ export function SimplexMethod() {
             {/* Main Title */}
             <h2
               id="simplex-titulo"
-              className="text-3xl sm:text-4xl md:text-[2.75rem] lg:text-[3.25rem] font-light text-white leading-[1.12] tracking-[-0.02em] mb-4 transition-all duration-700 ease-out"
+              className="simplex-title text-3xl sm:text-4xl md:text-[2.75rem] lg:text-[3.25rem] font-light text-white leading-[1.12] tracking-[-0.02em] mb-4 transition-all duration-700 ease-out"
               style={{
                 opacity: isVisible ? 1 : 0,
                 transform: isVisible ? "none" : "translate3d(0, 20px, 0)",
@@ -187,7 +187,7 @@ export function SimplexMethod() {
 
             {/* Paragraphs */}
             <div
-              className="space-y-4 text-sm sm:text-[15px] text-slate-300 leading-relaxed font-light max-w-[540px] mb-8 transition-all duration-700 ease-out"
+              className="simplex-body space-y-4 text-sm sm:text-[15px] text-slate-300 leading-relaxed font-light max-w-[540px] mb-8 transition-all duration-700 ease-out"
               style={{
                 opacity: isVisible ? 1 : 0,
                 transform: isVisible ? "none" : "translate3d(0, 20px, 0)",

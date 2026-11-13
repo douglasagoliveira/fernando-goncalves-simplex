@@ -6,7 +6,7 @@ addCollection(icons);
 
 export function Footer() {
   return (
-    <footer className="dark bg-[var(--blue-950)] text-[var(--foreground)] pt-14 pb-10 md:pt-18 md:pb-12 border-t border-[var(--glass-border)] mt-auto w-full">
+    <footer className="site-footer dark bg-[var(--blue-950)] text-[var(--foreground)] pt-14 pb-10 md:pt-18 md:pb-12 border-t border-[var(--glass-border)] mt-auto w-full">
       {/* Full-width container optimized for Desktop / Notebook and mobile */}
       <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 md:px-12 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-10 xl:gap-14 2xl:gap-16 items-start">
@@ -157,7 +157,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-14 pt-6 border-t border-[var(--glass-border)] flex flex-col sm:flex-row justify-between items-center text-center sm:text-left text-xs text-[var(--on-dark-muted)] gap-3">
+        <div className="site-footer__bottom mt-14 pt-6 border-t border-[var(--glass-border)] flex flex-col sm:flex-row justify-between items-center text-center sm:text-left text-xs text-[var(--on-dark-muted)] gap-3">
           <p>© {new Date().getFullYear()} Fernando Gonçalves · Todos os direitos reservados</p>
           <p className="text-[11px] uppercase tracking-wider text-[var(--on-dark-muted)]/70">
             Método SIMPLEX — Performances de Excelência

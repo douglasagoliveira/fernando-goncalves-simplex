@@ -335,7 +335,7 @@ export function Testimonials() {
       ref={section}
       aria-labelledby="depoimentos-titulo"
       aria-roledescription="carrossel"
-      className="dark relative overflow-hidden border-t border-white/15 bg-[#0A1428] py-16 text-white md:min-h-[760px] md:py-[100px] lg:pt-[90px] lg:pb-[105px]"
+      className="testimonials-section dark relative overflow-hidden border-t border-white/15 bg-[#0A1428] py-16 text-white md:min-h-[760px] md:py-[100px] lg:pt-[90px] lg:pb-[105px]"
       onMouseEnter={() => setInteracting(true)}
       onMouseLeave={() => setInteracting(false)}
       onFocusCapture={() => setFocused(true)}
@@ -405,10 +405,10 @@ export function Testimonials() {
         aria-hidden="true"
         loading="lazy"
         decoding="async"
-        className="portrait-grade-corporate pointer-events-none absolute right-[-4rem] top-16 z-10 block h-auto w-[400px] object-contain object-top opacity-70 [mask-image:linear-gradient(to_bottom,black_40%,rgba(0,0,0,0.3)_75%,transparent_95%),linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.4)_20%,black_45%)] [mask-composite:intersect] lg:top-4 lg:right-[max(0px,calc((100%_-_1380px)/2)_-_20px)] lg:w-[530px] xl:top-6 xl:right-[max(0px,calc((100%_-_1460px)/2)_+_10px)] xl:w-[590px] 2xl:w-[640px] lg:opacity-100 lg:[mask-image:linear-gradient(to_bottom,black_45%,rgba(0,0,0,0.2)_75%,transparent_95%),linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.4)_15%,black_35%)]"
+        className="testimonials-portrait portrait-grade-corporate pointer-events-none absolute right-[-4rem] top-16 z-10 block h-auto w-[400px] object-contain object-top opacity-70 [mask-image:linear-gradient(to_bottom,black_40%,rgba(0,0,0,0.3)_75%,transparent_95%),linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.4)_20%,black_45%)] [mask-composite:intersect] lg:top-4 lg:right-[max(0px,calc((100%_-_1380px)/2)_-_20px)] lg:w-[530px] xl:top-6 xl:right-[max(0px,calc((100%_-_1460px)/2)_+_10px)] xl:w-[590px] 2xl:w-[640px] lg:opacity-100 lg:[mask-image:linear-gradient(to_bottom,black_45%,rgba(0,0,0,0.2)_75%,transparent_95%),linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.4)_15%,black_35%)]"
       />
       <div
-        className="pointer-events-none relative z-30 mx-auto max-w-[1296px] px-5 md:px-7 lg:pr-[460px] xl:pr-[500px]"
+        className="testimonials-header pointer-events-none relative z-30 mx-auto max-w-[1296px] px-5 md:px-7 lg:pr-[460px] xl:pr-[500px]"
         data-aos="compose"
       >
         <div className="pointer-events-auto grid items-start gap-8 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] lg:grid-cols-[400px_minmax(0,1fr)] lg:gap-12">
@@ -424,7 +424,7 @@ export function Testimonials() {
             </p>
             <h2
               id="depoimentos-titulo"
-              className="mb-0 max-w-[420px] text-[clamp(2.35rem,3.1vw,3rem)] font-light leading-[var(--line-height-h2)] tracking-[var(--tracking-h2)]"
+              className="testimonials-title mb-0 max-w-[420px] text-[clamp(2.35rem,3.1vw,3rem)] font-light leading-[var(--line-height-h2)] tracking-[var(--tracking-h2)]"
             >
               <span className="text-[var(--on-dark-accent)]">O que dizem</span>
               <br className="hidden lg:inline" />{" "}
@@ -442,7 +442,7 @@ export function Testimonials() {
           </div>
         </div>
       </div>
-      <div className="relative z-20 mt-10 md:mt-[20px] lg:-mt-10 xl:-mt-14">
+      <div className="testimonials-track-wrap relative z-20 mt-10 md:mt-[20px] lg:-mt-10 xl:-mt-14">
         <div
           ref={track}
           id="depoimentos-cards"
@@ -493,7 +493,7 @@ export function Testimonials() {
                     y: isActive ? 0 : 16,
                   }}
                   transition={{ type: "spring", stiffness: 220, damping: 26 }}
-                  className="group flex h-[400px] w-[var(--card-width)] shrink-0 snap-center flex-col rounded-[16px] border border-white/10 bg-[#16233F]/70 p-6 pb-6 shadow-lg transition-[background-color,border-color,box-shadow] duration-500 ease-out data-[active=true]:border-[rgb(0_204_225/70%)] data-[active=true]:bg-[#1D3761] data-[active=true]:shadow-[0_20px_60px_rgb(0_204_225/12%)] motion-reduce:transition-none md:h-[460px] md:p-7 md:pb-7"
+                  className="testimonials-card group flex h-[400px] w-[var(--card-width)] shrink-0 snap-center flex-col rounded-[16px] border border-white/10 bg-[#16233F]/70 p-6 pb-6 shadow-lg transition-[background-color,border-color,box-shadow] duration-500 ease-out data-[active=true]:border-[rgb(0_204_225/70%)] data-[active=true]:bg-[#1D3761] data-[active=true]:shadow-[0_20px_60px_rgb(0_204_225/12%)] motion-reduce:transition-none md:h-[460px] md:p-7 md:pb-7"
                 >
                   <motion.div
                     className="testimonial-card-shell flex h-full flex-1 flex-col"
@@ -565,7 +565,7 @@ export function Testimonials() {
           <span aria-hidden="true">→</span>
         </button>
       </div>
-      <div className="mx-auto mt-7 flex max-w-[1296px] flex-wrap items-center justify-center gap-5 px-5 md:px-7">
+      <div className="testimonials-dots mx-auto mt-7 flex max-w-[1296px] flex-wrap items-center justify-center gap-5 px-5 md:px-7">
         <div
           className="flex items-center gap-2"
           role="group"
